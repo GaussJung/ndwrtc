@@ -4,12 +4,12 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node sslsvr.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
+    "debug": "~2.6.9",:
     "express": "^4.17.1",
     "jshashtable": "^0.1.0",
     "mariadb": "^2.5.2",
