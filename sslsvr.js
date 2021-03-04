@@ -24,7 +24,8 @@ const PORT = process.env.PORT = 443;   // 보안접속
 var memberRouter  = require('./routes/member');    // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');    // 비상호출 라우터 
 var empSetRouter   = require('./routes/emp');
-const serverURL  = "https://wrtc.soymlops.com/";   // 서버주소 
+const serverURL  = "https://wrtc.soymlops.com/";   // 서버주소 혹은  https://wrtc.soymlops.com:443/
+
 // 데이터셑 
  /*
 var gEmpFlagSet = require('./dataset/dataEmgSet');   // 비상호출 목록 
