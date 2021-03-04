@@ -3,7 +3,7 @@
 const express   = require('express');
  
 const app   = express();
-const PORT = process.env.PORT = 3000;
+const PORT = process.env.PORT = 3010;
  
 // 인원목록 출력 
 var memberRouter  = require('./routes/member');    // 회원목록 라우터 
@@ -47,7 +47,7 @@ app.use('/socket', socketRouter);
 // F10 ============================ 앱리스너 ===============================
 app.listen(PORT, () => {
   let msg; 
-  msg = "Node SocketServer V1.879 is running at: " + PORT; 
+  msg = "Node SocketServer V1.882 is running at: " + PORT; 
   //console.log('Node WebServer V1.877  is running at:', PORT);
   console.log(msg);   // 콘솔 
  

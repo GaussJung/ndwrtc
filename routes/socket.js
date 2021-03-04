@@ -14,18 +14,18 @@ router.get('/', function(req, res, next) {
  
 // F30 ================  웹소켓  ========================= 
  // 호출주소 
- // 일반접속  :  ws://serverip:1000/socket
- // 보안접속  :  wss://serverip:1000/socket
+ // 일반접속  :  ws://serverip:1010/socket
+ // 보안접속  :  wss://serverip:1010/socket
 
  
 const WebSocket = require('ws'); 
 
 var allmcnt   = 0;     // 전체 메시지 수량 
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
-var socketPort = 1000; 
+var socketPort = 1010; // 소켙 주소 1010번으로 설정 
 
 const webSkt = new WebSocket.Server({
-  port: 1000,
+  port: socketPort,
 });
 
 
@@ -84,7 +84,7 @@ webSkt.on('connection', (wskt, request) => {
         return;
       }
       // EOF SF05. 
-      let metaStr = "V1.4 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+      let metaStr = "V1.41 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
       let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
     
       console.log( "SC92 finalMsg=" + finalMsg ); 
