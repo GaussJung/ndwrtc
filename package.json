@@ -1,0 +1,21 @@
+{
+  "name": "ndsocket",
+  "version": "0.9.1",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.17.1",
+    "jshashtable": "^0.1.0",
+    "mariadb": "^2.5.2",
+    "mysql": "^2.18.1",
+    "node-jshashtable": "^0.1.4",
+    "nodemon": "^2.0.6",
+    "ws": "^7.4.2"
+  }
+}

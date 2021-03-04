@@ -1,0 +1,222 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	
+	<title>샘플 인원정보 수정</title> 
+ 	
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	
+ 	<style>
+ 	
+ 		.titleClass {
+ 			color:#222222;
+			display:inline-block;
+			width:160px;
+ 		}
+ 		
+ 		.contentClass {
+ 			display:inline-block;
+ 			color:purple; 
+ 		}
+ 		
+ 		.listTop {
+ 			margin-top:15px; 
+ 		}
+ 		
+ 		.listTop li {
+ 			margin-top:10px;
+ 			line-height:180%'
+ 		}
+ 		
+ 	</style>
+</head>
+
+<body>
+ 
+ 	<div id="mainContainer" > 
+ 	
+		<h2><span style='color:blue'>상세정보보기</span></h2>
+	 
+		<div id='viewDetail' >
+		
+			<form id='inputForm'>
+			
+				<ul class='listTop' >
+					
+					<li>
+						 <span class='titleClass' > ■ 출력인명수 </span> 
+						 <span class='contentClass' > 
+                            <input type=text name=bnum id=bnum  value="20" >
+                        </span>    
+					</li>
+  
+				</ul>
+		 
+			</form>
+            
+            <hr>
+                <div style='padding:10px;' >
+                    <textarea  id=outResult  style='background:rgb(45, 145, 238);min-height:300px;border:1px solid #777777;width:100%;'  value="" ></textarea>
+                </div>
+              
+            <hr>
+			
+			<p>
+			 <div class='buttonClass'  style="height:30px;margin:20px 15px;" >
+			
+				<div style='float:left;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnGetData" >가져오기</button>
+				</div> 
+				
+				<div style='float:right;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnClear" >데이터초기화</button>
+				</div> 
+	 
+			</div>
+			 
+		</div>
+		<!--  EOF viewDetail -->
+	
+	</div>
+	<!--  EOF mainContainer  -->
+ 
+</body>
+ 
+	<script>
+	      
+	    // ====================== START of JQuery ==================== 
+		$(document).ready(function(){
+		  
+			console.log("========== ajaxdb V1.0 ============"); 
+			console.log("cmd >> nodemon server80.js "); 
+			console.log("url >> http://localhost/demo/ajaxdb.html  ============"); 
+
+            // F1. 최종정보 채우기 
+            function fillUserData(outJson) {
+                let outString = JSON.stringify(outJson); 
+				console.log("T200-outString=" + outString); 
+				
+                $("#outResult").val(outString); 
+            }; 
+
+
+            // F8. 정보초기화 
+            function doClearData() {
+                $("#outResult").val(""); 
+            };
+
+			// F9. 정보가져오기 
+			function doGetData() {
+ 
+				let targetURL 		= "/member"; 				// OLD namelist";   	    저장호출 주소 ( 처리 결과 JSON전달 핸들러 ) 
+                let err 			= 0;						// 오류발생 여부 Flag
+               
+                let messageStr 		= "";						// 메시지 문구 
+                
+                let moveURL			= ""; 						// 저장후 이동주소 
+                let tmpStr 			= "";						// 임시 문자열 
+				
+				// initializing data 
+				doClearData();
+
+                 // V-10. 입력검증
+
+                 // 1_1. 출력수량  
+                 tmpStr = $("#bnum").val().trim(); 
+				 
+				 console.log("N1 tmpStr=" + tmpStr + " / nd=" + isNaN( tmpStr)); 
+
+				 if( err == 0 && tmpStr.length === 0  ){
+                     messageStr = "출력할 인명데이터 수량을 입력해 주세요!"; 
+                     err = 1;
+                 }
+                 else if( err == 0 && isNaN(tmpStr) === true  ){
+                     messageStr = "출력할 인명데이터 수량을 확인해 주세요!"; 
+                     err = 1;
+				 }
+				 else if( err == 0 && parseInt(tmpStr) > 100 ){
+                     messageStr = "출력할 인명데이터는 최대 100명까지 가능합니다!"; 
+                     err = 1;
+                 }
+                 else {
+                 	$("#bnum").val(tmpStr); 
+                 };
+ 
+                 
+                 // V-20. 검증결과
+                 if ( err > 0  ) {
+
+                     alert(messageStr);
+                 }
+                 else {
+
+                    let bval = $("#bnum").val(); 
+                    let outVal = "";  // 출력저장값 
+					
+		
+                    console.log("T100-in bval=" + bval); 
+
+                    // 호출 시작주소 
+                    // JSON POST 호출  similar to  http://localhost/namelist?bnum=30 
+                    $.ajax({
+                         url: targetURL,
+                         type:'post',
+                         dataType: 'json',
+                         data: {chcode:'getUserList', bnum:bval},
+                         cache: false,
+                         async: true,
+                         success: function(fdata) {
+                             // 정상적인 값이 호출이 되었을 경우 사용자 정보를 채움 
+                            if ( fdata != undefined && fdata !== null) {
+                                fillUserData(fdata); 
+                            }; 
+                              
+                         },
+                         error: function(xhr, errorString, exception) {   // 에러시에 출력
+                             alert(xhr.responseText);
+                             alert("xhr.status = " + xhr.status+" / errorString = " + errorString+" / exception = " + exception);
+                         }
+
+                     });
+                     // End of Ajax
+
+                 };
+                 // End of 입력값 검증
+ 
+			}; 
+			
+		     // F10. 호출  
+            $("#btnGetData").bind( "click", function(event, ui) {
+                doGetData();
+            });
+			
+		    // F20. 초기화 
+            $("#btnClear").bind( "click", function(event, ui) {
+                doClearData();
+            });
+            
+		     
+		});
+	    // End of Jquery 
+	 	
+	     
+		// V10. 성명입력체크 22 
+		function checkName(str) {
+			
+			let filReg =  /^[\uAC00-\uD7AFa-zA-Z\s]{2,30}$/;   // 2 ~ 30자까지의 영문한글 공백 
+			
+			let chkval =  trim(str);
+		 
+			return filReg.test(chkval);
+		 
+		};
+		
+ 
+		 
+	</script> 
+
+</html>

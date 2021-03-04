@@ -1,0 +1,342 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	
+	<title>WebSocket Test</title> 
+ 	
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	
+ 	<style>
+ 	
+ 		.titleClass {
+ 			color:#222222;
+			display:inline-block;
+			width:160px;
+ 		}
+ 		
+ 		.contentClass {
+ 			display:inline-block;
+ 			color:purple; 
+ 		}
+ 		
+ 		.listTop {
+ 			margin-top:15px; 
+ 		}
+ 		
+ 		.listTop li {
+ 			margin-top:10px;
+ 			line-height:180%'
+ 		}
+
+        .ui-disabled {
+            background:#cccccc; 
+        }
+ 		
+ 	</style>
+</head>
+
+<body>
+ 
+ 	<div id="mainContainer" > 
+ 	
+		<h2><span style='color:blue'>WebSocket Connection Test V1.2</span></h2>
+	 
+		<div id='viewDetail' >
+		
+			<form id='inputForm'>
+			
+				<ul class='listTop' >
+					
+					<li>
+						 <span class='titleClass' >접속주소 </span> 
+                         <p> 
+                         <span> 
+                            <input style='width:95%;' type=text name=wsSvrUrl id=wsSvrUrl  value="ws://localhost:88" >
+                        </span>    
+					</li>
+  
+                    <li>
+                        <span class='titleClass' >입력메시지 </span> 
+                        <p> 
+                        <span> 
+                           <input style='width:95%;'  type=text name=sendmsg id=sendmsg  value="" >
+                       </span>    
+                   </li>
+
+				</ul>
+		 
+			</form>
+
+            <hr>
+
+			<p>
+			 <div class='buttonClass'  style="height:30px;margin:20px 15px;" >
+			
+				<div style='float:left;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnConnect" >접속하기</button>
+				</div> 
+
+     
+                <div style='float:right;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnClose" >접속종료</button>
+                </div> 
+                
+			</div>
+             
+            <p> 
+            <div class='buttonClass'  style="height:30px;margin:20px 15px;" >
+			 
+				<div style='float:left;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnSend" >보내기</button>
+				</div> 
+ 
+                <div style='float:right;height:30px;' >
+					<button  style='width:120px;' type="button" id="btnClear" >초기화</button>
+                </div> 
+                
+            </div>
+            
+                        
+            <hr>
+
+                <div style='height:30px;padding-left:20px;'>
+                    <label>Status:</label>
+                    <span id="connectionStatus">CLOSED</span>
+                </div>
+           
+
+                <div style='padding:10px;' >
+                    <textarea  id=outResult  style='background:rgb(222, 240, 214);min-height:500px;border:1px solid #777777;width:100%;'  value="" ></textarea>
+                </div>
+              
+            <hr>
+
+
+		</div>
+		<!--  EOF viewDetail -->
+	
+	</div>
+	<!--  EOF mainContainer  -->
+ 
+</body>
+ 
+	<script>
+	      
+	    // ====================== START of JQuery ==================== 
+		$(document).ready(function(){
+		   	 
+            console.log("========== webSocket V1.2 ============"); 
+            console.log("cmd >> nodemon server80.js "); 
+            console.log("url >> http://localhost/demo/ws1.html  ============"); 
+            console.log("url >> http://13.125.85.64:5000/demo/ws1.html  ============"); 
+            
+            // 아래는 일반 소켙 호출 
+            console.log("url >> http://svc.joeunname.co.kr:90/demo/ws1.html  ============"); 
+            console.log("normal socket >> ws://svc.joeunname.co.kr:3000/socket  ============"); 
+            console.log("secure socket >> wss://svc.joeunname.co.kr:4000/secsocket  ============"); 
+            
+            
+            // 아래는 보안 소켙 호출 
+            console.log("url >> https://svc.joeunname.co.kr/demo/ws2.html  ============"); 
+            console.log("secure socket only  >> wss://svc.joeunname.co.kr:4000/secsocket  ============"); 
+            
+
+            var ws = null;                  // 웹소켙 객체 
+            var connected = false;          // 접속여부 
+ 
+            var serverUrl;                  // 서버접속주소DOM 
+            var connectionStatus;           // 상태안내DOM
+            var sendMessage;                // 발송메시지DOM 
+ 
+            var connectButton;              // 접속버튼 
+            var disconnectButton;           // 종료버튼 
+            var sendButton;                 // 메시지발송버튼 
+
+            const remoteSocket = 'wss://svc.joeunname.co.kr:4000/secsocket';         // 원격접속 ( 로드밸런싱 )
+            const localSocket  = 'ws://localhost:88';                           // 로컬접속  
+
+            // P05. 환경설정
+            function setInitEnv() {
+
+                serverUrl           = $("#wsSvrUrl");           // 웹소켙주소 
+                connectionStatus    = $('#connectionStatus');   // 접속상태
+                sendMessage         = $('#sendmsg');            // 발송메시지입력 
+
+                connectButton       = $('#btnConnect');         // 접속버튼 
+                disconnectButton    = $('#btnClose');           // 종료버튼 
+                sendButton          = $('#btnSend');            // 메시지 전송버튼 
+
+                if (location.host.indexOf("localhost") > -1 ) {
+                    // 로컬 기본 소켙주소 
+                    serverUrl.val(localSocket); 
+                }
+                else {
+                    // 원격 기본 소켙주소 
+                    serverUrl.val(remoteSocket); 
+                }; 
+
+            }; 
+
+            // 환경설정 
+            setInitEnv();
+
+            // P10. 웹소켙 열기 
+            var open = function() {
+                
+                let url = serverUrl.val();
+
+                // 소켙접속 서버 주소 확인 
+                if ( url.length < 1 ) {
+                    alert("ER100 check socketURL"); 
+                    return false;
+                };
+
+                ws = new WebSocket(url);
+                ws.onopen = onOpen;
+                ws.onclose = onClose;
+                ws.onmessage = onMessage;
+                ws.onerror = onError;
+
+                connectionStatus.text('OPENING ...');
+                serverUrl.attr("disabled", true);   // 접속후 주소변경 불가하도록 함 
+                connectButton.addClass("ui-disabled").attr("disabled", true);  // 접속된 상태이므로 접속버튼 불활성화 
+                disconnectButton.removeClass("ui-disabled").attr("disabled", false);  // 접속종료 버튼 활성화 
+            };
+
+            // P20. 웹소켙 닫기 
+            var close = function() {
+                if (ws) {
+                    console.log('Socket Closing ...');
+                    // 웹소켙 종료 
+                    ws.close();
+                };
+            };
+
+            // P30. 초기화 
+            var reset = function() {
+                console.log('SK20 RESET connection'); 
+                connected = false;
+                connectionStatus.text('Connection Closed');    // 소켙닫힘 안내 
+
+                serverUrl.attr("disabled", false);  // 웹소켙주소 입력가능토록 함 
+                connectButton.removeClass("ui-disabled").attr("disabled", false);  // 접속버튼 활성화 
+                disconnectButton.addClass("ui-disabled").attr("disabled", true);  // 접속종료된 상태이므로 접속종료버튼 불활성화  
+                sendMessage.attr("disabled", true);  // 메시지 입력창 입력불가함 
+                sendButton.attr("disabled", true);  // 발송버튼 동작불가함
+            };
+            
+            // P40. 오픈후 설정 
+            var onOpen = function() {
+                console.log('SK10 Connected to URL=' + serverUrl.val());
+                connected = true;
+                connectionStatus.text('OPENED');
+                sendMessage.attr("disabled", false);    // 소켙이 열려있으므로 메시지 입력가능토록 함. 
+                sendButton.attr("disabled", false);     // 소켙이 열려있으므로 발송버튼 동작 
+            };
+
+            // P50. 접속종료후 설정 
+            var onClose = function() {
+                console.log('SK25 Connection Closed from URL=' + serverUrl.val());
+                ws = null;  // 접속종료후에 소켙 초기화 
+                reset();
+            };
+
+            // P60. 메시지 발송 
+            var onMessage = function(event) {
+                let data = event.data;
+                console.log('SK31 onMessage data=' + data); 
+                addMessage(data);
+            };
+
+            // P70. 오류시 
+            var onError = function(event) {
+                alert(event.type);
+            };
+
+            // P80. 메시지 추가 
+            var addMessage = function(data, type) {
+                let msg = data;                             // 현재 메시지 
+                let prevmsg     = $("#outResult").val();    // 이전 메시지 
+                let allmsg      = prevmsg + "\n" + msg;     // 전체 메시지 
+                let resultView  = $("#outResult");
+
+                // 메시지 입력 
+                resultView.val(allmsg); 
+                 
+            };
+ 
+
+            // F8. 정보초기화 
+            function doClearData() {
+                $("#outResult").val(""); 
+            };
+  
+            // S10. 접속호출 : 종료 후 소켙오픈 
+            connectButton.click(function(e) {
+                close();
+                open();
+            });
+
+            // S20. 접속종료 : 종료 
+            disconnectButton.click(function(e) {
+                close();
+            });
+
+            // S30. 메시지 전송 
+            sendButton.click(function(e) {
+                let nowtime = 0; 
+                let sendFinalMsg = ""; // 메시지 + 시간정보 
+                let msg = sendMessage.val().trim();
+                console.log('SK32 btnSend msg=' + msg); 
+
+                if ( msg.length == 0 ) {
+                    alert("메시지 입력확인!"); 
+                    return false; 
+                };
+                // addMessage(msg, 'SENT'); // 발송메시지 
+                nowtime = performance.now(); 
+                sendFinalMsg = msg + "  [ " + nowtime + " ] "; 
+                console.log('SK33 sendFinalMsg=' + sendFinalMsg); 
+                ws.send(sendFinalMsg);
+             });
+
+             // E40. 메시지초기화 
+             $("#btnClear").bind( "click", function(event, ui) {
+                doClearData();
+            });
+
+             // E10. 소켙접속 
+             /*
+             $("#btnConnect").bind( "click", function(event, ui) {
+                doConnect();
+            });
+			
+		    // E40. 초기화 
+            $("#btnClose").bind( "click", function(event, ui) {
+                doClose();
+            });
+             
+		     // E30. 데이터추가 
+            $("#btnGetData").bind( "click", function(event, ui) {
+                doAddMsg();
+            });
+			
+		    // E40. 초기화 
+            $("#btnClear").bind( "click", function(event, ui) {
+                doClearData();
+            });
+            */ 
+		     
+		});
+	    // End of Jquery 
+	 	
+	      
+		
+		 
+	</script> 
+
+</html>
