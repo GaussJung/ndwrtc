@@ -5,7 +5,7 @@
 - PrgName : server.js at ndwrtc  
 - Date : 2020. 03. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v0.291   
+- Version : v0.312  
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
 1) startup : sudo node server.js  ( or sudo forever start server.js )  
@@ -17,10 +17,12 @@
 'use strict'; 
 
 const express   = require('express');
-const io = require('socket.io')(http);
+
 const app   = express();
 const PORT = process.env.PORT = 3010;
  
+const io = require('socket.io'); 
+
 // 인원목록 출력 
 var memberRouter  = require('./routes/member');    // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');    // 비상호출 라우터 
