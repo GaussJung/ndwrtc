@@ -62,7 +62,7 @@ app.use('/socket', socketRouter);
 // F10 ============================ 앱리스너 ===============================
 app.listen(PORT, () => {
   let msg; 
-  msg = "SSL SocketServer V1.892 is running at: " + PORT + "  ServerURL=" +  serverURL  ; 
+  msg = "SSL SocketServer V1.893 is running at: " + PORT + "  ServerURL=" +  serverURL  ; 
   //  serverURL  
   //console.log('Node WebServer V1.877  is running at:', PORT);
   console.log(msg);   // 콘솔  
