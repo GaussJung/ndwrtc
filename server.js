@@ -5,7 +5,7 @@
 - PrgName : server.js at ndwrtc  
 - Date : 2020. 03. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v0.2  
+- Version : v0.291   
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
 1) startup : sudo node server.js  ( or sudo forever start server.js )  
