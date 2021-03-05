@@ -58,6 +58,9 @@ app.use('/emp', empSetRouter);
 
 // 정적 데이터 디렉토리 설정 
 app.use(express.static('public'));
+
+// 노드 라이브러리 바로 사용 
+app.use(express.static('node_modules'));
  
  // 소켙 통신  
 app.use('/socket', socketRouter);                
