@@ -22,7 +22,7 @@ const WebSocket = require('ws');
 
 var allmcnt   = 0;     // 전체 메시지 수량 
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
-var socketPort = 1000; // 소켙 주소 1010번으로 설정 
+var socketPort = 1030; // 소켙 주소 1030번으로 설정 
 
 const webSkt = new WebSocket.Server({
   port: socketPort,
