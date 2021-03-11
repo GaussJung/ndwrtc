@@ -66,8 +66,10 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
  
  // 소켙 통신  
-app.use('/socket', socketRouter);                
+app.use('/socket', socketRouter);      
 
+//  보안적용 
+app.use(require('helmet')());
 
 // 인증서 적용 
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/privkey.pem', 'utf8');
