@@ -10,7 +10,7 @@
 - Usage 
 1) startup : sudo node server.js  ( or sudo forever start server.js )  
 2) stop : sudo killall node ( including other node service instances )
- 
+3) desc 
 */ 
 
 
@@ -19,7 +19,7 @@
 const express   = require('express');
 
 const app   = express();
-const PORT = process.env.PORT = 3010;
+const PORT = process.env.PORT = 3030;
  
 const io = require('socket.io'); 
 
@@ -68,7 +68,7 @@ app.use('/socket', socketRouter);
 // F10 ============================ 앱리스너 ===============================
 app.listen(PORT, () => {
   let msg; 
-  msg = "Node SocketServer V1.882 is running at: " + PORT; 
+  msg = "Node SocketServer V1.883 is running at: " + PORT; 
   //console.log('Node WebServer V1.877  is running at:', PORT);
   console.log(msg);   // 콘솔 
  
