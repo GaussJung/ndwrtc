@@ -71,19 +71,35 @@ app.use('/socket', socketRouter);
 //  보안적용 
 app.use(require('helmet')());
 
-  
+// 인증서 적용 
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+
+ 
 app.use((req, res) => {
   let msg; 
 
-  msg = "Node Utest-Server V1.884 is running "; 
+  msg = "Node Utest-Server V1.883 is running "; 
  
   console.log(msg);   // 콘솔 
 });
 
 //  리스터 Starting both http & https servers
 const httpServer = http.createServer(app);
- 
+const httpsServer = https.createServer(credentials, app);
+
 httpServer.listen(80, () => {
-	console.log('UTEST wrtc 0.31 HTTP Server running on port 80');
+	console.log('UTEST wrtc 0.28 HTTP Server running on port 80');
 });
- 
+
+httpsServer.listen(443, () => {
+	console.log('UTEST wrtc 0.28 HTTPS Server running on port 443');
+});
