@@ -97,8 +97,8 @@ app.use((req, res) => {
 });
 
 //  리스터 Starting both http & https servers
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 
 // 웹소켙 오픈을 위해서 글로벌로 선언 
 global.httpsServer = httpsServer;
