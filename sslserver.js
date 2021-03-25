@@ -43,7 +43,7 @@ global.gEmpArr      = gEmpArr;            // 출동대기 직원목록 프로젝
 global.gEmpOutStr   = gEmpOutStr;         // 출동대기 직원목록 문자열 프로젝트 전역변수 선언 
  */ 
 // 소켙 
-var socketRouter  = require('./routes/socket');    // 소켙통신 
+var socketRouter  = require('./routes/secureSocket');    // 소켙통신 
 
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 

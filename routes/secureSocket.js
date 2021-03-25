@@ -20,7 +20,7 @@ const WebSocket = require('ws');
 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-var socketPort  = 1010;  // 소켙 주소 1010번으로 설정
+var socketPort  = 1030;  // 소켙 주소 1030번으로 설정
 const wss = new WebSocket.Server({
   port: socketPort,
 });
@@ -51,7 +51,7 @@ wss.on('connection', (wskt) => {
   
   conncnt++;  // 현재 접속 수량증대 
 
-  wskt.send(' Connected To Rocket SecureWebSocket V1.6 conncnt=' + conncnt);
+  wskt.send(' Connected To Rocket SecureWebSocket V1.61 conncnt=' + conncnt);
 
   // F33-1. binding message 
   wskt.on('message', (indata) => {
@@ -76,7 +76,7 @@ wss.on('connection', (wskt) => {
       return;
     }
     // EOF SF05. 
-    let metaStr = "V1.21 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+    let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
     let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
    
     console.log( "SC92 finalMsg=" + finalMsg ); 
