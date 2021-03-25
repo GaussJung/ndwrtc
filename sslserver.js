@@ -100,11 +100,7 @@ app.use((req, res) => {
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
-
-const WebSocket = require('ws'); 
-
  
-
 
 httpServer.listen(80, () => {
 	console.log('NODE 0.281 HTTP Server running on port 80');
@@ -115,13 +111,17 @@ httpsServer.listen(443, () => {
 });
 
 
+// 이하 웹소켄 접속 
+
+
+ // 웹소켙 
+ const WebSocket = require('ws'); 
+
+ 
 var wss = new WebSocket.Server({
 	server: httpsServer
   });
    
-
- // 웹소켙 
-  const WebSocket = require('ws'); 
 
   var allmcnt     = 0;     // 전체 메시지 수량 
   var conncnt     = 0;     // 소켙 접속 횟수 (전체)
