@@ -16,9 +16,9 @@
 
 'use strict'; 
 
-const fs = require('fs');
+
 const http = require('http');
-const https = require('https');
+
 const express = require('express');
 
  
@@ -76,19 +76,9 @@ app.use(require('helmet')());
 // const certificate = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/cert.pem', 'utf8');
 // const ca = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/chain.pem', 'utf8');
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr//chain.pem', 'utf8');
-
-const credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
-};
-
-
  
 app.use((req, res) => {
+
   let msg; 
 
   msg = "Node Utest-Server V1.885 is running "; 
@@ -98,12 +88,8 @@ app.use((req, res) => {
 
 //  리스터 Starting both http & https servers
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80, () => {
 	console.log('NODE 0.281 HTTP Server running on port 80');
 });
 
-httpsServer.listen(443, () => {
-	console.log('UTEST wrtc 0.281 HTTPS Server running on port 443');
-});
