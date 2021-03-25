@@ -19,28 +19,24 @@ router.get('/', function(req, res, next) {
  // wss://app.joeunname.co.kr:443/secureSocket 
   
  
-/*
+
 const WebSocket = require('ws'); 
 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-
-const wss = new WebSocket.Server({
-  port: socketPort,
-});
- */ 
-
- 
 var socketPort  = 3000;  // 소켙 주소 443번으로 설정
  
+ 
+
 console.log("SC109 11 SecureSocket  ===============  socketPort=" +  socketPort); 
  
 // httpsServer : 글로벌 선언됨 
- /*
+ 
 const wss = new WebSocket.Server({
-  server: httpsServer
+  port: socketPort 
 });
- */ 
+ 
+
 // F30. socket Error  
 const sendError = (wskt, errmessage) => {
 
