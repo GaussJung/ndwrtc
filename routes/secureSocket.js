@@ -3,6 +3,9 @@
 var express 	= require('express');
 var router 	  = express.Router();
  
+const app  = express();
+
+
 const fs = require('fs');
 const https = require('https');
 /* GET users listing. 
@@ -13,6 +16,46 @@ router.get('/', function(req, res, next) {
 */
 
 
+// post 파서 
+var bodyParser = require('body-parser');            // POST 인자 파서 
+app.use(bodyParser.json());                         // POST 인자 파서 사용 
+app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
+
+// 인원목록 라우팅 
+app.use('/member', memberRouter);
+
+// 비상호출 라우팅 
+app.use('/emergency', emgRouter);                    
+
+// 목록호출 테스트 
+app.use('/emp', empSetRouter);   
+
+// 정적 데이터 디렉토리 설정 
+app.use(express.static('public'));
+
+// 노드 라이브러리 바로 사용 v0.313 
+app.use(express.static('node_modules'));
+ 
+ // 소켙 통신  
+app.use('/socket', socketRouter);      
+
+//  보안적용 
+app.use(require('helmet')());
+
+// 인증서 적용 
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/privkey.pem', 'utf8');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/cert.pem', 'utf8');
+// const ca = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/chain.pem', 'utf8');
+
+ 
+app.use((req, res) => {
+
+  let msg; 
+
+  msg = "Node SSL Utest-Server V1.885 is running "; 
+ 
+  console.log(msg);   // 콘솔 
+});
 // F30 ================  보안 웹소켓  ========================= 
  // 호출주소 
  // 일반접속  :  ws://serverip:88
