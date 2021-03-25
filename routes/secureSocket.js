@@ -15,15 +15,18 @@ router.get('/', function(req, res, next) {
  // 호출주소 
  // 일반접속  :  ws://serverip:88
  // 보안접속  :  wss://serverip:88  (여기에 해당)
+  // wss://app.joeunname.co.kr:443/secureSocket 
   
 const WebSocket = require('ws'); 
 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-var socketPort  = 1030;  // 소켙 주소 1030번으로 설정
+var socketPort  = 443;  // 소켙 주소 1030번으로 설정
 const wss = new WebSocket.Server({
   port: socketPort,
 });
+
+console.log("SC109 SecureSocket  ===============  socketPort=" +  socketPort); 
 
 
 // F30. socket Error  
