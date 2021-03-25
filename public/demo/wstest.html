@@ -147,8 +147,8 @@
             var disconnectButton;           // 종료버튼 
             var sendButton;                 // 메시지발송버튼 
 
-            const remoteSocket = 'ws://utest.soymlops.com:1030/socket';                   // 원격접속 
-            const localSocket  = 'ws://localhost:1030/socket';                      // 로컬접속  
+            var remoteSocket = 'wss://app.joeunname.co.kr/socket';                   // 원격접속 
+            var localSocket  = 'ws://localhost:1030/socket';                      // 로컬접속  
 
             // P05. 환경설정
             function setInitEnv() {
@@ -166,8 +166,18 @@
                     serverUrl.val(localSocket); 
                 }
                 else {
-                    // 원격 기본 소켙주소 
-                    serverUrl.val(remoteSocket); 
+                  
+                    if (  location.protocol == "https" ) {
+                        remoteSocket = 'wss://app.joeunname.co.kr:443'; 
+                    }
+                    else {
+                        remoteSocket = 'ws://app.joeunname.co.kr/socket'; 
+                    }; 
+
+                      // 원격 기본 소켙주소 
+                      serverUrl.val(remoteSocket); 
+                    
+
                 }; 
 
             }; 
