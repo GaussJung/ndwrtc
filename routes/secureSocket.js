@@ -21,15 +21,7 @@ var bodyParser = require('body-parser');            // POST 인자 파서
 app.use(bodyParser.json());                         // POST 인자 파서 사용 
 app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
 
-// 인원목록 라우팅 
-app.use('/member', memberRouter);
-
-// 비상호출 라우팅 
-app.use('/emergency', emgRouter);                    
-
-// 목록호출 테스트 
-app.use('/emp', empSetRouter);   
-
+  
 // 정적 데이터 디렉토리 설정 
 app.use(express.static('public'));
 
