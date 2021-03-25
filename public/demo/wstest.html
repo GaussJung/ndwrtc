@@ -129,12 +129,10 @@
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
 		   	 
-            console.log("========== webSocket V1.4 using github ============"); 
-            console.log("cmd >> npm server.js or node server.js "); 
-            console.log("url >> http://localhost/demo/ws1.html  ============"); 
-            console.log("url >> http://utest.soymlops.com:3030/demo/wstest.html  ============"); 
-            console.log("sck >> ws://13.125.85.64:1030/socket  ============"); 
-            
+            console.log("========== webSocket V1.5 using github ============"); 
+            console.log("cmd >> node server.js or node sslserver.js "); 
+            console.log("url >> http://localhost/demo/wstest.html  ============"); 
+ 
 
             var ws = null;                  // 웹소켙 객체 
             var connected = false;          // 접속여부 
@@ -167,11 +165,11 @@
                 }
                 else {
                   
-                    if (  location.protocol == "https" ) {
-                        remoteSocket = 'wss://app.joeunname.co.kr:443'; 
+                    if (  location.protocol == "http" ) {
+                        remoteSocket = 'ws://app.joeunname.co.kr/socket'; 
                     }
                     else {
-                        remoteSocket = 'ws://app.joeunname.co.kr/socket'; 
+                        remoteSocket = 'wss://app.joeunname.co.kr:443'; 
                     }; 
 
                       // 원격 기본 소켙주소 
