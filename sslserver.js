@@ -65,8 +65,8 @@ app.use(express.static('public'));
 // 노드 라이브러리 바로 사용 v0.313 
 app.use(express.static('node_modules'));
  
- // 소켙 통신  
-app.use('/socket', socketRouter);      
+ // 소켙 통신  :  https로 바로 진행 
+// app.use('/socket', socketRouter);      
 
 //  보안적용 
 app.use(require('helmet')());
