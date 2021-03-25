@@ -4,7 +4,7 @@ var express 	= require('express');
 var router 	  = express.Router();
  
 const fs = require('fs');
-const https = require('https');
+ 
 /* GET users listing. 
 router.get('/', function(req, res, next) {
    res.send('respond with a resource');
@@ -32,13 +32,15 @@ const wss = new WebSocket.Server({
 });
 */ 
 
+
+console.log("SC109 11 SecureSocket  ===============  socketPort=" +  socketPort); 
+
+
+
 // httpsServer : 글로벌 선언됨 
 const wss = new WebSocket.Server({
   server: httpsServer
 });
-
-console.log("SC109 SecureSocket  ===============  socketPort=" +  socketPort); 
-
 
 // F30. socket Error  
 const sendError = (wskt, errmessage) => {
