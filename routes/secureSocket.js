@@ -30,6 +30,7 @@ const wss = new WebSocket.Server({
 });
  */ 
 
+ 
 var socketPort  = 3000;  // 소켙 주소 443번으로 설정
  
 console.log("SC109 11 SecureSocket  ===============  socketPort=" +  socketPort); 
