@@ -116,12 +116,7 @@ httpsServer.listen(443, () => {
 
  // 웹소켙 
  const WebSocket = require('ws'); 
-
  
-var wss = new WebSocket.Server({
-	server: httpsServer
-  });
-   
 
   var allmcnt     = 0;     // 전체 메시지 수량 
   var conncnt     = 0;     // 소켙 접속 횟수 (전체)
