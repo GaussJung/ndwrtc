@@ -116,11 +116,12 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  // 웹소켙 
  const WebSocket = require('ws'); 
 
-  console.log("SC109 11 SecureSocket ========== "); 
+  console.log(" ============== myApp Test WebServer with webSocket V0.918 ============= "); 
    
   // ============== 31-a secure websocket ================= 
   const wss = new WebSocket.Server({
 	server: httpsServer,
+	port: 1000,
 	path: "/socket"
   });
  
