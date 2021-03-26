@@ -123,23 +123,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 	server: httpsServer,
 	path: "/socket"
   });
-    
-  // F30. socket Error  
-  const sendError = (wskt, errmessage) => {
-  
-	const messageObject = {
-	   type: 'ERROR',
-	   payload: errmessage,
-	};
-  
-	let outMsg = JSON.stringify(messageObject); 
-  
-	console.log("SC110 SecureSocket Error outMsg=" + outMsg); 
-  
-	// Send Error Msg 
-	wskt.send(JSON.stringify(messageObject));
-  };
-  // EOF F30. 
+ 
   
   // F31-a. socket connection test 
   wss.on('connection', (wskt) => {
