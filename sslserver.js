@@ -1,6 +1,4 @@
-﻿
-
-/*
+﻿/*
 - PrgId : UT-ND-1000 
 - PrgName : server.js at ndwrtc  
 - Date : 2020. 03. 04 
@@ -13,7 +11,6 @@
 3) desc 
 */ 
 
-
 'use strict'; 
 
 const fs = require('fs');
@@ -21,7 +18,6 @@ const http = require('http');
 const https = require('https');
 const express = require('express');
 
- 
 const app  = express();
  
 const io = require('socket.io'); 
@@ -69,16 +65,19 @@ app.use(express.static('node_modules'));
 // app.use('/socket', socketRouter);      
 
 //  보안적용 
-app.use(require('helmet')());
+// app.use(require('helmet')());
 
 // 인증서 적용 
-// const privateKey = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/privkey.pem', 'utf8');
-// const certificate = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/cert.pem', 'utf8');
-// const ca = fs.readFileSync('/etc/letsencrypt/live/utest.soymlops.com/chain.pem', 'utf8');
+ 
+//const privateKey = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/privkey.pem', 'utf8');
+//const certificate = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/cert.pem', 'utf8');
+//const ca = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/chain.pem', 'utf8');
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr//chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
+
+
 
 const credentials = {
 	key: privateKey,
@@ -91,7 +90,7 @@ const credentials = {
 app.use((req, res) => {
   let msg; 
 
-  msg = "Node Utest-Server V1.885 is running "; 
+  msg = "Node myApp-Server V0.91 is running "; 
  
   console.log(msg);   // 콘솔 
 });
@@ -100,37 +99,31 @@ app.use((req, res) => {
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
- 
-
 httpServer.listen(80, () => {
-	console.log('NODE 0.281 HTTP Server running on port 80');
+	console.log('myApp V0.91 NODE HTTP Server running on port 80');
 });
 
 httpsServer.listen(443, () => {
-	console.log('UTEST wrtc 0.281 HTTPS Server running on port 443');
+	console.log('myApp V0.91 NODE HTTPS Server running on port 443');
 });
 
 
 // 이하 웹소켄 접속 
-
-
+ 
+var allmcnt     = 0;     // 전체 메시지 수량 
+var conncnt     = 0;     // 소켙 접속 횟수 (전체)
+ 
  // 웹소켙 
  const WebSocket = require('ws'); 
- 
 
-  var allmcnt     = 0;     // 전체 메시지 수량 
-  var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-  var socketPort  = 443;  // 소켙 주소 443번으로 설정
- 
   console.log("SC109 11 SecureSocket  ===============  socketPort=" +  socketPort); 
    
-  // httpsServer : 글로벌 선언됨 
-   
+  // ============== 31-a secure websocket ================= 
   const wss = new WebSocket.Server({
-	server: httpsServer
+	server: httpsServer,
+	path: "/socket"
   });
-   
-  
+    
   // F30. socket Error  
   const sendError = (wskt, errmessage) => {
   
@@ -167,9 +160,7 @@ httpsServer.listen(443, () => {
 	  pfnow = process.hrtime(); 
 	  curmcnt++;  // 현재메시지 수량 
 	  allmcnt++;  // 전체 메시지 접속수량 증대 
-	 
-	  // console.log( "SC90 indata=" + JSON.stringify(indata) ); 
-   
+ 
 	  // SF05. Parse Message 
 	  try {
 		// fmessage = JSON.parse(indata);
@@ -191,6 +182,83 @@ httpsServer.listen(443, () => {
 	});
 	// EOF F33-1. message binding 
   
-  
   });
-  // EOF F31-a 
+  // EOF F31-a  secureSocket 
+
+
+ // =========== 31-b.  normal websocket ===============
+ const webSkt = new WebSocket.Server({
+	server: httpServer,
+	path: "/socket"
+});
+ 
+
+//   socket connection test 
+webSkt.on('connection', (wskt, request) => {
+      
+    // console.log(`C09. Conn Url ${request.url}`);
+    let conuri =  request.url; 
+
+    console.log( "SC10 conuri=" + conuri  ); 
+
+    let pfnow     = 0.0;        // 현재 시간 millisec 
+    let curmcnt   = 0.0;        // 현재메시지 수량 
+  
+    conncnt++;  // 현재 접속 수량증대 
+
+    wskt.send('C10 Connected To Rocket WebSocket V1.4 conncnt=' + conncnt);
+
+    // F33-1. binding message 
+    wskt.on('message', (indata) => {
+
+      let fmessage  = "";
+
+      // 현재시간 ( millisec )
+      pfnow = process.hrtime(); 
+      curmcnt++;  // 현재메시지 수량 
+      allmcnt++;  // 전체 메시지 접속수량 증대 
+    
+      // console.log( "SC90 indata=" + JSON.stringify(indata) ); 
+  
+      // SF05. Parse Message 
+      try {
+        // fmessage = JSON.parse(indata);
+        fmessage = indata; 
+        // console.log( "SC91 success fmessage=" + indata ); 
+      } 
+      catch (err) {
+        sendError(wskt, 'Wrong format Err SE-150 err=' + err);
+        return;
+      }
+      // EOF SF05. 
+      let metaStr = "V1.41 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+      let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
+    
+      console.log( "SC92 finalMsg=" + finalMsg ); 
+
+      wskt.send(finalMsg); 
+      
+    });
+    // EOF F33-1. message binding 
+ 
+});
+// EOF F31-b normal socket 
+
+
+
+// F30-c. socket Error  
+const sendError = (wskt, errmessage) => {
+
+	const messageObject = {
+	   type: 'ERROR',
+	   payload: errmessage,
+	};
+  
+	let outMsg = JSON.stringify(messageObject); 
+  
+	console.log("SC100 Error outMsg=" + outMsg); 
+  
+	// Send Error Msg 
+	wskt.send(JSON.stringify(messageObject));
+  };
+  // EOF F30-c. 
