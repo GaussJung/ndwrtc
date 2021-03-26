@@ -52,13 +52,13 @@ sudo mkdir work
   sudo npm start server.js ( ssh 접속중 동작, 로그파일 확인가능  ) 
 
 - 메인페이지 
-http://도메인 or IP:3010/
+http://도메인 or IP
 
 - 소켙테스트 
-http://도메인 or IP:3010/demo/wstest.html 
+http://도메인 or IP/demo/wstest.html 
 
 - 소켙주소  
-ws://도메인 or IP:1010/socket 
+ws://도메인 or IP:1000/socket 
  
  
 
@@ -77,4 +77,6 @@ https://도메인/
 https://도메인/demo/wstest.html 
 
 - 소켙주소  
-wss://도메인:1010/socket 
+wss://도메인:443/socket
+or 
+wss://도메인/socket

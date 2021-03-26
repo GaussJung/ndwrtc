@@ -173,6 +173,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  // =========== 31-b.  normal websocket ===============
  const webSkt = new WebSocket.Server({
 	server: httpServer,
+	port: 1000,
 	path: "/socket"
 });
  
