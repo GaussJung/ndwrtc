@@ -118,10 +118,9 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 
   console.log(" ============== myApp Test WebServer with webSocket V0.918 ============= "); 
    
-  // ============== 31-a secure websocket ================= 
+  // ============== 31-a secure websocket ================= 	port: 443 
   const wss = new WebSocket.Server({
 	server: httpsServer,
-	port: 3000,
 	path: "/socket"
   });
  
@@ -172,6 +171,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 
 
  // =========== 31-b.  normal websocket ===============
+ // 포트를 지정하지 않으면 기본 80 
  const webSkt = new WebSocket.Server({
 	server: httpServer,
 	port: 1000,
