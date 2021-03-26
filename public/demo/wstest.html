@@ -145,8 +145,8 @@
             var disconnectButton;           // 종료버튼 
             var sendButton;                 // 메시지발송버튼 
 
-            var remoteSocket = 'wss://app.joeunname.co.kr/socket';                   // 원격접속 
-            var localSocket  = 'ws://localhost:1030/socket';                      // 로컬접속  
+            var remoteSocket = '';                   // 원격접속 
+            var localSocket  = '';                      // 로컬접속  
 
             // P05. 환경설정
             function setInitEnv() {
@@ -161,15 +161,16 @@
 
                 if (location.host.indexOf("localhost") > -1 ) {
                     // 로컬 기본 소켙주소 
+                    localSocket  = 'ws://localhost:1030/socket'; 
                     serverUrl.val(localSocket); 
                 }
                 else {
                   
                     if (  location.protocol == "http" ) {
-                        remoteSocket = 'ws://app.joeunname.co.kr/socket'; 
+                        remoteSocket = 'ws://myapp.nuriblock.com/socket'; 
                     }
                     else {
-                        remoteSocket = 'wss://app.joeunname.co.kr:443'; 
+                        remoteSocket = 'wss://myapp.nuriblock.com:443/socket'; 
                     }; 
 
                       // 원격 기본 소켙주소 
