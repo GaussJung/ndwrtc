@@ -121,7 +121,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
   // ============== 31-a secure websocket ================= 
   const wss = new WebSocket.Server({
 	server: httpsServer,
-	port: 1000,
+	port: 3000,
 	path: "/socket"
   });
  
@@ -134,7 +134,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 	
 	conncnt++;  // 현재 접속 수량증대 
   
-	wskt.send(' Connected To Rocket SecureWebSocket V1.61 conncnt=' + conncnt);
+	wskt.send(' Connected To Rocket SecureWebSocket V1.6 conncnt=' + conncnt);
   
 	// F33-1. binding message 
 	wskt.on('message', (indata) => {
