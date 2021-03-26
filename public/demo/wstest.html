@@ -145,6 +145,7 @@
             var disconnectButton;           // 종료버튼 
             var sendButton;                 // 메시지발송버튼 
 
+            var baseURL      = location.hostname;  
             var remoteSocket = '';                   // 원격접속 
             var localSocket  = '';                      // 로컬접속  
 
@@ -161,17 +162,18 @@
 
                 if (location.host.indexOf("localhost") > -1 ) {
                     // 로컬 기본 소켙주소 
-                    localSocket  = 'ws://localhost:1000/socket'; 
+                    localSocket  = "ws://" + baseURL + ":1000/socket"; 
                     serverUrl.val(localSocket); 
                 }
                 else {
                   
                     if (  location.protocol == "http:" ) {
-                        remoteSocket = 'ws://myapp.nuriblock.com:1000/socket'; 
+                        // remoteSocket = 'ws://myapp.nuriblock.com:1000/socket'; 
+                        remoteSocket = "ws://" + baseURL + ":1000/socket"; 
                     }
                     else {
                         // 443생략 : ORG remoteSocket = 'wss://myapp.nuriblock.com:443/socket'; 
-                        remoteSocket = 'wss://myapp.nuriblock.com/socket'; 
+                        remoteSocket = "wss://" + baseURL + "/socket"; 
                     }; 
 
                       // 원격 기본 소켙주소 

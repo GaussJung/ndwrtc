@@ -116,7 +116,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  // 웹소켙 
  const WebSocket = require('ws'); 
 
-  console.log(" ============== myApp Test WebServer with webSocket V0.918 ============= "); 
+  console.log(" ============== myApp Test WebServer with webSocket V0.921 ============= "); 
    
   // ============== 31-a secure websocket ================= 	port: 443 
   const wss = new WebSocket.Server({
