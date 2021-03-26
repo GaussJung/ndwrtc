@@ -161,13 +161,13 @@
 
                 if (location.host.indexOf("localhost") > -1 ) {
                     // 로컬 기본 소켙주소 
-                    localSocket  = 'ws://localhost:1030/socket'; 
+                    localSocket  = 'ws://localhost:1000/socket'; 
                     serverUrl.val(localSocket); 
                 }
                 else {
                   
-                    if (  location.protocol == "http" ) {
-                        remoteSocket = 'ws://myapp.nuriblock.com/socket'; 
+                    if (  location.protocol == "http:" ) {
+                        remoteSocket = 'ws://myapp.nuriblock.com:1000/socket'; 
                     }
                     else {
                         remoteSocket = 'wss://myapp.nuriblock.com:443/socket'; 

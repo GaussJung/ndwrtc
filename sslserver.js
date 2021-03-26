@@ -90,7 +90,7 @@ const credentials = {
 app.use((req, res) => {
   let msg; 
 
-  msg = "Node myApp-Server V0.91 is running "; 
+  msg = "Node myApp-Server V0.917 is running "; 
  
   console.log(msg);   // 콘솔 
 });
@@ -100,11 +100,11 @@ const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80, () => {
-	console.log('myApp V0.91 NODE HTTP Server running on port 80');
+	console.log('myApp - A NODE HTTP Server running on port 80');
 });
 
 httpsServer.listen(443, () => {
-	console.log('myApp V0.91 NODE HTTPS Server running on port 443');
+	console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
 
 
