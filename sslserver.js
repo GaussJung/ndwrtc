@@ -90,7 +90,7 @@ const credentials = {
 app.use((req, res) => {
   let msg; 
 
-  msg = "Node myApp-Server V0.917 is running "; 
+  msg = "Node myApp-Server V0.918 is running "; 
  
   console.log(msg);   // 콘솔 
 });
@@ -133,7 +133,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 	
 	conncnt++;  // 현재 접속 수량증대 
   
-	wskt.send(' Connected To Rocket SecureWebSocket V1.6 conncnt=' + conncnt);
+	wskt.send(' Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
   
 	// F33-1. binding message 
 	wskt.on('message', (indata) => {
