@@ -28,8 +28,10 @@ function viewField(fArr) {
 }; 
 
 // 비상정보 내려보내기 
-function EmgrgencyView(request, response, bnum) {
+function EmgrgencyView(request, response, dcdVal) {
 
+    /*
+    OLD : EmgrgencyView(request, response, bnum) 
     let   ecdVal       = "E" + parseInt(bnum); 
     let   sqlBody      = ""; 
     
@@ -39,6 +41,9 @@ function EmgrgencyView(request, response, bnum) {
     else {
         sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE eflag = 100  "; 
     }; 
+    */ 
+
+   sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE dcd = " + dcdVal; 
 
     // 시간측정 
     console.time("DBEX02"); 
@@ -94,23 +99,31 @@ function EmgrgencyView(request, response, bnum) {
 // 인명목록호출 :   http://localhost/namelist
 // 인명목록호출 : 인자(최소값)  http://localhost/namelist?bnum=50
 // res : response, bnum : bottom number  
-function viewData(res, bnum) {
+function viewData(res, dcdVal) {
  
   const mysql         = require('mysql');
   const dbconfig      = require('../config/database.js');
 
   let   connection    = mysql.createConnection(dbconfig);
  
-   let   ecdVal       = "E" + parseInt(bnum); 
+  
    let   sqlBody      = ""; 
    
+   /*
+    OLD :  viewData(res, bnum)  
+    let   ecdVal       = "E" + parseInt(bnum); 
    if ( bnum  > 0 ) {
        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE ecd = '" + ecdVal + "'"; 
    }
    else {
        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE eflag = 100 "; 
    }; 
+   */ 
      //  F5 
+
+     sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE dcd = " + dcdVal; 
+
+
   
    // CF1-START
    connection.query(sqlBody, function (err, rows, fields) {
