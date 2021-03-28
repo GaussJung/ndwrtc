@@ -43,7 +43,7 @@ function EmgrgencyView(request, response, dcdVal) {
     }; 
     */ 
 
-   sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE dcd = " + dcdVal; 
+   sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = " + dcdVal; 
 
     // 시간측정 
     console.time("DBEX02"); 
@@ -121,7 +121,7 @@ function viewData(res, dcdVal) {
    */ 
      //  F5 
 
-     sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE dcd = " + dcdVal; 
+     sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = " + dcdVal; 
 
 
   
