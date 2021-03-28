@@ -43,6 +43,8 @@ function EmgrgencyView(request, response, dcdVal) {
     }; 
     */ 
 
+   let   sqlBody      = ""; 
+
    sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = " + dcdVal; 
 
     // 시간측정 
