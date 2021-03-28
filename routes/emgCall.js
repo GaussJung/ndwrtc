@@ -110,10 +110,10 @@ function viewData(res, dcdVal) {
  
   
    let   sqlBody      = ""; 
-
+   
    
    /*
-    OLD1 :  viewData(res, bnum)  
+    OLD :  viewData(res, bnum)  
     let   ecdVal       = "E" + parseInt(bnum); 
    if ( bnum  > 0 ) {
        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE ecd = '" + ecdVal + "'"; 
@@ -122,8 +122,7 @@ function viewData(res, dcdVal) {
        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE eflag = 100 "; 
    }; 
    */ 
-     //  F5 
-
+   
      sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = ? "; 
   
    // CF1-START
