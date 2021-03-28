@@ -48,9 +48,9 @@
 				<ul class='listTop' >
 					
 					<li>
-						 <span class='titleClass' > ■ 직원코드 <br>( 0 : 호출요청목록 ) </span> 
+						 <span class='titleClass' > ■ 부서코드 <br>( 0 : 호출요청목록 ) </span> 
 						 <span class='contentClass' > 
-                            <input type=text name=bnum id=bnum  value="0" >
+                            <input type=text name=bnum id=bnum  value="D0" >
                         </span>    
 					</li>
   
@@ -135,13 +135,9 @@
 				 console.log("N1 tmpStr=" + tmpStr + " / nd=" + isNaN( tmpStr)); 
 
 				 if( err == 0 && tmpStr.length === 0  ){
-                     messageStr = "직원코드 입력해 주세요!"; 
+                     messageStr = "직원부서코드를 입력해 주세요! (ex:D1)"; 
                      err = 1;
                  }
-                 else if( err == 0 && isNaN(tmpStr) === true  ){
-                     messageStr = "직원코드는 숫자로 입력해 주세요!"; 
-                     err = 1;
-				 }
 		         else {
                  	$("#bnum").val(tmpStr); 
                  };

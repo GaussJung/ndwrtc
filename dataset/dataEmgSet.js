@@ -37,7 +37,7 @@ function getEmpFlagSet(eflagVal) {
 
     // console.log("DG150 eflagVal=" + eflagVal ); 
     // 정적 바인딩으로 데이터 호출 
-    sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE eflag = ? "; 
+    sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE dcd = ? "; 
     // sqlBody = "SELECT ecd, empname, eflag FROM ex_emp LIMIT 0, 3"; 
   
     // 시간측정 
