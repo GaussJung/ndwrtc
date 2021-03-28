@@ -45,13 +45,13 @@ function EmgrgencyView(request, response, dcdVal) {
 
    let   sqlBody      = ""; 
 
-   sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = " + dcdVal; 
+   sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = ? "; 
 
     // 시간측정 
     console.time("DBEX02"); 
 
     dbConnector.getConnection(function(conn) {
-        conn.query(sqlBody, [100])
+        conn.query(sqlBody, [dcdVal])
             .then((results) => {
                     
                 // console.log(results); //[ {val: 1}, meta: ... ]
@@ -123,12 +123,10 @@ function viewData(res, dcdVal) {
    */ 
      //  F5 
 
-     sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = " + dcdVal; 
-
-
+     sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = ? "; 
   
    // CF1-START
-   connection.query(sqlBody, function (err, rows, fields) {
+   connection.query(sqlBody, [dcdVal], function (err, rows, fields) {
      
       if (err) throw err;
 
