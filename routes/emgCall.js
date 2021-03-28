@@ -110,9 +110,10 @@ function viewData(res, dcdVal) {
  
   
    let   sqlBody      = ""; 
+
    
    /*
-    OLD :  viewData(res, bnum)  
+    OLD1 :  viewData(res, bnum)  
     let   ecdVal       = "E" + parseInt(bnum); 
    if ( bnum  > 0 ) {
        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE ecd = '" + ecdVal + "'"; 
