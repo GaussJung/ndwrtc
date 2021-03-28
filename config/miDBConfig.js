@@ -1,9 +1,20 @@
-﻿
-//  mi서비스 DB접속정보  
+﻿ 
+
 module.exports = {
-  host: '54.180.120.120',
+  host: 'mydb.nuriblock.com',
+  user: 'devdba',
+  port: 3307,
+  password: 'devdba12!',
+  database: 'covidb'
+};
+
+/*
+module.exports = {
+  host: '54.180.120.---',
   user: 'dbmgr',
   port: 3306,
-  password: 'devops',
+  password: 'dev---',
   database: 'csp'
 };
+
+*/ 

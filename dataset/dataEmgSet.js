@@ -1,7 +1,6 @@
  
 var dbConnector = require('../config/dbConnector');
-
-
+ 
 var resultSetArr            = [];       // 결과값 배열 
 var resultSetStr            = "";       // 결과값 문자열 
 
