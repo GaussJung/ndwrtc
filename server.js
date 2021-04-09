@@ -68,22 +68,20 @@ app.use(express.static('node_modules'));
  // 소켙 통신  
 app.use('/socket', socketRouter);      
 
-//  보안적용 
-app.use(require('helmet')());
+// 보안적용 
+// app.use(require('helmet')());
 
   
 app.use((req, res) => {
   let msg; 
-
   msg = "Node Utest-Server V1.884 is running "; 
- 
-  console.log(msg);   // 콘솔 
+  // console.log(msg);   // 콘솔 
 });
 
 //  리스터 Starting both http & https servers
 const httpServer = http.createServer(app);
  
 httpServer.listen(80, () => {
-	console.log('UTEST wrtc 0.31 HTTP Server running on port 80');
+	 console.log('UTEST wrtc 0.91 HTTP Server running on port 80');
 });
  

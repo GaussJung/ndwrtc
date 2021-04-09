@@ -28,12 +28,13 @@ function viewField(fArr) {
 // 플래그에 해당하는 정보목록 내려보내기 
 function getEmpFlagSet(eflagVal) {
  
-    let dataResultStr   = "";  // 값 전달 데이터 문자열 
+    let dataResultStr   = "";   // 값 전달 데이터 문자열 
  
-    let sqlBody         = ""; 
+    let sqlBody         = "";   // sql문장 
 
-    resultSetArr  = [];  // 초기화 
-    resultSetStr  = "";  // 결과값 문자열 초기화 
+    resultSetArr        = [];   // 초기화 
+
+    resultSetStr        = "";   // 결과값 문자열 초기화 
 
     // console.log("DG150 eflagVal=" + eflagVal ); 
     // 정적 바인딩으로 데이터 호출 
@@ -44,27 +45,18 @@ function getEmpFlagSet(eflagVal) {
       console.time("DBS-EX02"); 
 
      dbConnector.getConnection(function(conn) {
-             
-          // 정적변수 바인딩 없는 SQL호출 conn.query(sqlBody)
-          // 정적변수 바인딩 후에 SQL호출 
+          // 정적변수 바인딩 없는 SQL호출  conn.query(sqlBody)
+          // 정적변수 바인딩 후에 SQL호출  conn.query(sqlBody,[eflagVal])
          conn.query(sqlBody,[eflagVal])
             .then((results) => {
-                    
-                // console.log(results); //[ {val: 1}, meta: ... ]
- 
                 // 결과배열 
                 resultSetArr = results;  
- 
+                // 결과값 문자열변환 
                 resultSetStr = JSON.stringify(resultSetArr); 
                 // console.log("DG12 resultSetStr=" +  resultSetStr  ); 
-                
                 // 컬럼값 보기 
                 // viewField(results);  
- 
-                // 웹쪽에 대한 콜백 
-                // dbConnector.sendJSON(response, 200, output);
                 console.timeEnd("DBS-EX02"); 
-
                 console.log('DATELENDATA= ' + resultSetArr.length + "  / resultSetStr=" + resultSetStr); 
                 conn.end();
             })
@@ -89,7 +81,7 @@ exports.getResulSetStr = function() {
 }; 
 
 // 호출방법  getEmpFlagSet(100)
-console.log("\nDS11-Added DataEmgSet"); 
+console.log("\nDS11-Added EmgDeptSet"); 
 
 exports.getEmpFlagSet = getEmpFlagSet;  
  

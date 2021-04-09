@@ -5,10 +5,9 @@
 
 	<meta charset="utf-8">
 	
-	<title>샘플 인원정보 수정</title> 
+	<title>직원정보 호출 예제</title> 
  	
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	
 	
  	<style>
  	
@@ -92,14 +91,12 @@
 		$(document).ready(function(){
 		  
 			console.log("========== ajaxdb V1.0 ============"); 
-			console.log("cmd >> nodemon server80.js "); 
 			console.log("url >> http://localhost/demo/ajaxdb.html  ============"); 
 
             // F1. 최종정보 채우기 
             function fillUserData(outJson) {
                 let outString = JSON.stringify(outJson); 
 				console.log("T200-outString=" + outString); 
-				
                 $("#outResult").val(outString); 
             }; 
 
@@ -157,7 +154,6 @@
                     let bval = $("#bnum").val(); 
                     let outVal = "";  // 출력저장값 
 					
-		
                     console.log("T100-in bval=" + bval); 
 
                     // 호출 시작주소 
@@ -215,8 +211,6 @@
 		 
 		};
 		
- 
-		 
 	</script> 
 
 </html>
