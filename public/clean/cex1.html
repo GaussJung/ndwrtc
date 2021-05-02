@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>3C-Ex1 </title>
+ 
+</head>
+
+<body>
+    <h2>Clean & Clear Code</h2>
+    
+    <h3>예시1 : 반복횟수선언</h3>
+
+    <textarea id="resultArea" style="width:500px;height:100px;"></textarea>
+    <br>
+    <button id="btnClear">초기화</button> 
+    <hr>
+    <div id='BadCode' >
+        <h3>Bad Code</h3>
+        <pre>
+ 
+            for(let i = 0; i < 20;  i++){
+                console.log("Seq of apple=" + i);  
+            }; 
+        </pre>
+
+        <button id="btnBad">실 행</button> 
+
+    </div>
+
+    <hr>
+    <div id='GoodCode' >
+        <h3>Good Code</h3>
+        <pre>
+            let NUMBER_OF_APPLE = 20; 
+
+            for(let i = 0; i < NUMBER_OF_APPLE;  i++){
+                console.log("Seq of apple=" + i);  
+            }; 
+        </pre>
+
+        <button id="btnGood">실 행</button> 
+    </div>
+
+    <hr>
+    <p>
+
+</body>
+ 
+<script>
+  
+    // F10. 실행 Good소스 
+    function doGoodSource() {
+
+        let NUMBER_OF_APPLE = 20; 
+
+        for(let i = 0; i < NUMBER_OF_APPLE;  i++){
+            console.log("Seq of apple=" + i);  
+            document.getElementById("resultArea").value += "(Good)Seq of apple=" + i + "\n"; 
+        }; 
+
+    }; 
+
+    // F11. 실행 Bad소스 
+    function doBadSource() {
+ 
+        for(let i = 0; i < 20;  i++){
+            console.log("Seq of apple=" + i);  
+            document.getElementById("resultArea").value += "(Bad)Seq of apple=" + i + "\n"; 
+        }; 
+    }; 
+
+    // F12. 결과초기화 
+    function doClear() {
+        document.getElementById("resultArea").value = ""; 
+    }
+
+    // F20. Good소스 블록실행 
+    btnGood.onclick = () => {
+        doClear(); 
+        doGoodSource(); 
+    };
+
+    // F21. Bad소스 블록실행 
+    btnBad.onclick = () => {
+        doClear(); 
+        doBadSource(); 
+    };
+ 
+    // F30. 결과초기화 
+        btnClear.onclick = () => {
+        doClear(); 
+    };
+ 
+</script>
+
+</html>
+
+

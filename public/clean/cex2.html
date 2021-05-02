@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>3C-Ex2 </title>
+ 
+</head>
+
+<body>
+    <h2>Clean & Clear Code</h2>
+    
+    <h3>예시2 : 반복구문중첩</h3>
+
+    <textarea id="resultArea" style="width:500px;height:100px;"></textarea>
+    <br>
+    <button id="btnClear">초기화</button> 
+    <hr>
+    <div id='BadCode' >
+        <h3>Bad Code</h3>
+        <pre> 
+            const array = [ [ ['이순신'] ] ]; 
+
+            array.forEach((firstArr) => {
+                firstArr.forEach((secondArr) => {
+                    secondArr.forEach((element) => {
+                        console.log(element);
+                    });
+                });
+            });
+
+        </pre>
+
+        <button id="btnBad">실 행</button> 
+
+    </div>
+
+    <hr>
+    <div id='GoodCode' >
+        <h3>Good Code</h3>
+        <pre> 
+
+            const array = [ [ ['이순신'] ] ]; 
+
+            const getValuesOfNestedArray = (element) => {
+               
+                if(Array.isArray(element)){
+                    return getValuesOfNestedArray(element[0]);
+                };
+    
+                return element;
+            };
+    
+            getValuesOfNestedArray(array); 
+     
+        </pre>
+
+        <button id="btnGood">실 행</button> 
+    </div>
+
+    <hr>
+    <p>
+
+</body>
+ 
+<script>
+  
+    // F10. 실행 Good소스 
+    function doGoodSource() {
+ 
+        const array = [ [ ['이순신'] ] ]; 
+
+        const getValuesOfNestedArray = (element) => {
+           
+            if(Array.isArray(element)){
+                return getValuesOfNestedArray(element[0]);
+            };
+
+            return element;
+        };
+
+        // getValuesOfNestedArray(array); 
+        document.getElementById("resultArea").value = getValuesOfNestedArray(array);
+ 
+    }; 
+
+    // F11. 실행 Bad소스 
+    function doBadSource() {
+
+        const array = [ [ ['이순신'] ] ]; 
+
+        array.forEach((firstArr) => {
+            firstArr.forEach((secondArr) => {
+                secondArr.forEach((element) => {
+                    // console.log(element);
+                    document.getElementById("resultArea").value = element; 
+                });
+            });
+        });
+
+    }; 
+
+    // F12. 결과초기화 
+    function doClear() {
+        document.getElementById("resultArea").value = ""; 
+    }
+
+    // F20. Good소스 블록실행 
+    btnGood.onclick = () => {
+        doClear(); 
+        doGoodSource(); 
+    };
+
+    // F21. Bad소스 블록실행 
+    btnBad.onclick = () => {
+        doClear(); 
+        doBadSource(); 
+    };
+ 
+    // F30. 결과초기화 
+     btnClear.onclick = () => {
+        doClear(); 
+    };
+ 
+</script>
+
+</html>
+
+

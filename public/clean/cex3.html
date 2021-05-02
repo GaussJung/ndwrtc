@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>3C-Ex3</title>
+ 
+</head>
+
+<body>
+    <h2>Clean & Clear Code</h2>
+    
+    <h3>예시3 : 복합범위함수</h3>
+
+    <textarea id="resultArea" style="width:500px;height:100px;"></textarea>
+    <br>
+    <button id="btnClear">초기화</button> 
+    <hr>
+    <div id='BadCode' >
+        <h3>Bad Code</h3>
+        <pre> 
+ 
+            let x = 7, y = 5; 
+            
+            const addAndSub = (a,b) => {
+                 // 덧셈 
+                const addResult = a+b; 
+                // 뺄셈 
+                const subResult = a-b; 
+                // 결과값 
+                return `A=${a}, B=${b} >>> 덧셈결과=${addResult} / 뺄셈결과=${subResult}`; 
+            }
+    
+
+        </pre>
+
+        <button id="btnBad">실 행</button> 
+
+    </div>
+
+    <hr>
+    <div id='GoodCode' >
+        <h3>Good Code</h3>
+        <pre> 
+
+            let resultString = "", x = 7, y = 5; 
+
+            const doAdd = (a,b) => {
+                return a+b; 
+            }
+    
+            const doSub = (a,b) => {
+                return a-b; 
+            }
+    
+            resultString =  `A=${x}, B=${y} >>> 덧셈결과=${doAdd(x,y)} / 뺄셈결과=${doSub(x,y)}`; 
+    
+     
+        </pre>
+
+        <button id="btnGood">실 행</button> 
+    </div>
+
+    <hr>
+    <p>
+
+</body>
+ 
+<script>
+  
+    // F10. 실행 Good소스 
+    function doGoodSource() {
+        
+        let resultString = "", x = 7, y = 5; 
+
+        const doAdd = (a,b) => {
+            return a+b; 
+        }
+
+        const doSub = (a,b) => {
+            return a-b; 
+        }
+
+        resultString =  `A=${x}, B=${y} >>> 덧셈결과=${doAdd(x,y)} / 뺄셈결과=${doSub(x,y)}`; 
+
+        // 결과값 채우기 
+        document.getElementById("resultArea").value = resultString; 
+
+    }; 
+
+    // F11. 실행 Bad소스 
+    function doBadSource() {
+
+        let x = 7, y = 5; 
+
+        const addAndSub = (a,b) => {
+             // 덧셈 
+            const addResult = a+b; 
+            // 뺄셈 
+            const subResult = a-b; 
+            // 결과값 
+            return `A=${a}, B=${b} >>> 덧셈결과=${addResult} / 뺄셈결과=${subResult}`; 
+        }
+
+        // 결과값 채우기 
+        document.getElementById("resultArea").value = addAndSub(x,y);  
+
+    }; 
+
+    // F12. 결과초기화 
+    function doClear() {
+        document.getElementById("resultArea").value = ""; 
+    }
+
+    // F20. Good소스 블록실행 
+    btnGood.onclick = () => {
+        doClear(); 
+        doGoodSource(); 
+    };
+
+    // F21. Bad소스 블록실행 
+    btnBad.onclick = () => {
+        doClear(); 
+        doBadSource(); 
+    };
+ 
+    // F30. 결과초기화 
+     btnClear.onclick = () => {
+        doClear(); 
+    };
+ 
+</script>
+
+</html>
+
+
