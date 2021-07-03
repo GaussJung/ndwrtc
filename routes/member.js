@@ -7,6 +7,8 @@ var router = express.Router();
 var rcnt = 0; // 레코드 수량 
 var outStr = ""; 
 
+var apichcode = "";    // 호출 API처리코드 
+
 // F20 ============================ DB호출 ===============================
 
 // 일반호출 :   http://localhost/first.html
@@ -28,7 +30,7 @@ function viewData(res, bnum) {
    // CF1-START
    connection.query(sqlBody, function (err, rows, fields) {
      
-      if (err) throw err;
+      if (err)  throw err;
 
   		// 시간측정 
    		console.time("DBEX01"); 
@@ -62,24 +64,34 @@ function viewData(res, bnum) {
      
         }; 
         // EOF For-D1  
-
-  
+ 
         // rows 는 아래의 outAll 과 동일, 즉 레코드셑은 JSON 배열로 반환 
         // console.log( 'VN-400 ==========  outAll = ' +  JSON.stringify(outAll) ); 
        
         // console.log( 'VN-500 ============ ENDING Conn V1.817 =============== '); 
         // res.send(outAll);  : callBack함수에서 실행 
-
-
+ 
         // res.send(outData);
         console.timeEnd("DBEX01"); 
 
-        console.log("VN-IN-A11 TimeEnd after DBEX01"); 
- 
+     
         // 결과 문자열 
         outStr = JSON.stringify(outAll);  
 
+        console.log("VN-IN-A11 outStr=" + outStr); 
 
+        console.log("VN-IN-A11 V1.0 TimeEnd after DBEX01"); 
+ 
+        // 결과 전달 
+        // return res.send(outStr);
+
+        return res.status(200).send({
+            success: true,
+            count: rows.length,
+            chcode: apichcode,
+            rowset: outAll
+        });
+    
       });
       // CF1-END 
 }; 
@@ -90,6 +102,7 @@ function viewData(res, bnum) {
 function viewNameList(req, res, bnum) {
  
 	let bval = 0; 
+
 	if ( bnum == null || bnum.length == 0 ) {
 	   bval = 10; 
 	   console.log("VN-A1 bval=" + bval); 
@@ -102,31 +115,28 @@ function viewNameList(req, res, bnum) {
   viewData(res,bval); 
   
 }; 
-
-// 일반접속이 특이하게 풀링보다 빠름. 
-// G1  localhost/namelist  호출시 목록 출력
+ 
+// G1
 // 아래와 같이 호출시에 목록을 get 및 post방식 모두로 호출함.  
+
+// 방식1 : Get   >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/member?bnum=30 ) 
 router.get('/', (req, res) => {
-  let bnum = req.query.bnum;  // similar to req.param('bnum');
-  console.log("VN-A1 Post bval=" + bnum);
+
+  console.log("\n\n==========  GET START V1.09 ============= " + req.query.chcode);
+  let bnum  = req.query.bnum;  // similar to req.param('bnum');
+  apichcode = req.query.chcode;  // api처리코드 
+  console.log("==========  GET ========== VN-A1  before Post bval=" + bnum  + " / apichcode=" + apichcode);
   viewNameList(req, res, bnum); 
+
 });
 
-// POST 
+// 방식2 : Post  >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/member  )
 router.post('/', (req, res) => {
-  let bnum = req.body.bnum;   // similar to 포스트 bnum 
-  console.log("VN-A2  before Post bval=" + bnum);
+  console.log("\n\n==========  POST V1.1 START ============= " + req.body.chcode);
+  let bnum  = req.body.bnum;   // similar to 포스트 bnum 
+  apichcode = req.body.chcode;  // api처리코드 
+  console.log("==========  POST ==========  VN-A2  before Post bval=" + bnum + " / apichcode=" + apichcode);
   viewNameList(req, res, bnum); 
-
-  
-  setTimeout( function(){   
-    // callBack 호출받은뒤에 실행 
-    // 이와 같이 호출시에 결과값을 리턴받을 수 있음. (비동기값을 회피 )                	
-    console.log("VN-A3-V1.91 after  Post bval=" + bnum + " / rcnt=" + rcnt + "  /  outStr=" + outStr) ;
-    res.send(outStr);
- 
-  }, 100);
-
  
 });
  

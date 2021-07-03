@@ -4,7 +4,9 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "lint": "eslint src/js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -18,6 +20,15 @@
     "node-jshashtable": "^0.1.4",
     "nodemon": "^2.0.6",
     "socket.io": "^3.1.2",
-    "ws": "^7.4.2"
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
+    "ws": "^7.4.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0"
   }
 }

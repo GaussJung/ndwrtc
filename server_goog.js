@@ -32,7 +32,7 @@ const io = require('socket.io');
 // 인원목록 출력 
 var memberRouter  = require('./routes/member');    // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');    // 비상호출 라우터 
-var empSetRouter  = require('./routes/emp');
+var empSetRouter   = require('./routes/emp');
 
 // 데이터셑 
  /*

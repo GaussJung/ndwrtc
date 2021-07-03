@@ -22,27 +22,14 @@ function viewField(fArr) {
     for ( i=0; i < fcnt; i++ ) { 
         // 필드값 출력 
         fobj = fArr[i]; 
-        console.log("DG15=" + JSON.stringify(fobj) );  // 직원정보 객체 출력 
+        // console.log("DG15=" + JSON.stringify(fobj) );  // 직원정보 객체 출력 
         // console.log("DG15-1 ecd=" + fobj.ecd );   // 직원번호 출력 
     }; 
 }; 
 
 // 비상정보 내려보내기 
 function EmgrgencyView(request, response, dcdVal) {
-
-    /*
-    OLD : EmgrgencyView(request, response, bnum) 
-    let   ecdVal       = "E" + parseInt(bnum); 
-    let   sqlBody      = ""; 
-    
-    if ( bnum  > 0 ) {
-        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE ecd = '" + ecdVal + "'"; 
-    }
-    else {
-        sqlBody = "SELECT ecd, empname, eflag FROM ex_emp WHERE eflag = 100  "; 
-    }; 
-    */ 
-
+ 
    let   sqlBody      = ""; 
 
    sqlBody = "SELECT ecd, empname, dcd FROM ex_emp WHERE dcd = ? "; 
@@ -70,14 +57,24 @@ function EmgrgencyView(request, response, dcdVal) {
                 viewField(results); 
 
                 // console.log("DG13 DB DATAS.value=" +  JSON.stringify(output.datas[0]) );
-                dbConnector.sendJSON(response, 200, results);
+                // dbConnector.sendJSON(response, 200, results);
                 
                 // 전달되는 값의 항목이 많음. 
                 // dbConnector.sendJSON(response, 200, output);
              
                 console.timeEnd("DBEX02"); 
+  
+                console.log('\n\n ==========  END V1.1 ================='); 
+
+                return response.status(200).send({
+                    success: true,
+                    count: results.length,
+                    rowset: results
+                });
+    
+                 
             })
-            .then((res) => {
+            .then((response) => {
                 // console.log('RE-111 res = ' + res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
                 conn.end();
             })
