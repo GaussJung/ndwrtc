@@ -91,12 +91,14 @@ app.use((req, res) => {
 });
 
 //  리스터 Starting both http & https servers
-const httpServer = http.createServer(app);
+// const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
+/*
 httpServer.listen(80, () => {
 	console.log('myApp - A NODE HTTP Server running on port 80');
 });
+*/ 
 
 httpsServer.listen(443, () => {
 	console.log('myApp  - B NODE HTTPS Server running on port 443');
@@ -111,7 +113,7 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  // 웹소켙 
  const WebSocket = require('ws'); 
 
-  console.log(" ============== myApp Test WebServer with webSocket V0.921 ============= "); 
+ //  console.log(" ============== myApp Test WebServer with webSocket V0.921 ============= "); 
    
   // ============== 31-a secure websocket ================= 	port: 443 
   const wss = new WebSocket.Server({
@@ -250,7 +252,7 @@ const sendError = (wskt, errmessage) => {
 // ========== 확인 : http://localhost/api-docs/ 
 
  
-import { getUserList ,findUserById } from "./user";
+import { getUserList, findUserById } from "./user";
  
 const userList = getUserList(); // assume for now this is your database
 
@@ -260,6 +262,10 @@ const swaggerUi = require('swagger-ui-express');
 import YAML from 'yamljs';    // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
 
 const swaggerDocument = YAML.load('./swaggerSSL.yaml');
+
+
+// 간단테스트1 : https://myapp.nuriblock.com/emergency
+// 간단테스트2 : https://myapp.nuriblock.com/member?bnum=7 
 
 /*
 app.listen(443, () => {
@@ -273,13 +279,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 console.log("============ START SWAGGER FOR SSL V1.1 ============= "); 
 
-/*
+ 
 
-  app.listen(8000, () => {
-    console.log("\n\n\n =============== ndwrtc v0.5 5000 server listening on port 5000!");
-  });
+app.listen(5000, () => {
+  console.log("\n\n\n =============== ndwrtc v0.5 5000 server listening on port 5000!");
+});
 
-*/ 
+ 
   
 // GET Call for all users
 app.get("/users", (req, res) => {
