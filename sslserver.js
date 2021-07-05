@@ -108,12 +108,13 @@ app.listen(443, () => {
 */ 
 
 
- 
+ /*
 app.use((req, res) => {
   let msg; 
   msg = " \n\n\n================================= >>>>. Node myApp-Server V0.92 is running "; 
   console.log(msg);   // 콘솔 
 });
+*/ 
 
 // 초기접속화면 : https://domain:443/api-docs 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
