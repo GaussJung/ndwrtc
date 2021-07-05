@@ -7,13 +7,14 @@ info:
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
-host: localhost:80
+host: 
+- myapp.nuriblock.com
 basePath: "/"
 tags:
 - name: Users
   description: API for users in the system
 schemes:
-- http
+- https
 consumes:
 - application/json
 produces:
