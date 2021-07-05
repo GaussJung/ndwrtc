@@ -261,9 +261,11 @@ import YAML from 'yamljs';    // json이 아닌 yaml을 통해서 설정이 진�
 
 const swaggerDocument = YAML.load('./swaggerSSL.yaml');
 
+/*
 app.listen(443, () => {
   console.log("\n\n\n =============== ndwrtc v0.5 server listening on port 443");
 });
+*/ 
 
 // 초기접속화면 : https://domain:443/api-docs 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
