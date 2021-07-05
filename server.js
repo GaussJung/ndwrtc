@@ -107,20 +107,17 @@ const swaggerUi = require('swagger-ui-express');
 import YAML from 'yamljs';
 const swaggerDocument = YAML.load('./swagger.yaml');
 
+// 초기접속화면 : https://domain:80/api-docs 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  /*
+ 
+/*
+
   app.listen(8000, () => {
     console.log("\n\n\n =============== ndwrtc v0.5 5000 server listening on port 5000!");
   });
-  */ 
- /*
-const swagServer = http.createServer(app);
 
-swagServer.listen(5000, () => {
-  console.log('SWAG Server running on port 5000');
-});
 */ 
-//  data: {chcode:'getUserList', bnum:bval}, 
+  
 // GET Call for all users
 app.get("/users", (req, res) => {
 
@@ -140,7 +137,6 @@ app.get("/", (req, res) => {
 });
 
 //  POST call - Means you are adding new user into database 
-
 app.post("/addUser", (req, res) => {
 
   if (!req.body.name) {
@@ -154,6 +150,7 @@ app.post("/addUser", (req, res) => {
       message: "companies is required",
     });
   }
+
   const user = {
     id: userList.length + 1,
     isPublic: req.body.isPublic,

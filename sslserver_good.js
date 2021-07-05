@@ -69,11 +69,16 @@ app.use(express.static('node_modules'));
 
 // 인증서 적용 
  
+//const privateKey = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/privkey.pem', 'utf8');
+//const certificate = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/cert.pem', 'utf8');
+//const ca = fs.readFileSync('/etc/letsencrypt/live/app.joeunname.co.kr/chain.pem', 'utf8');
+
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
 
- 
+
+
 const credentials = {
 	key: privateKey,
 	cert: certificate,
@@ -243,155 +248,3 @@ const sendError = (wskt, errmessage) => {
 	wskt.send(JSON.stringify(messageObject));
   };
   // EOF F30-c. 
-
-
-  
-// ====================== SWAGGER ================================ 
-// ========== 확인 : http://localhost/api-docs/ 
-
- 
-import { getUserList ,findUserById } from "./user";
- 
-const userList = getUserList(); // assume for now this is your database
-
-const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger_PREV.json');
-
-import YAML from 'yamljs';    // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
-const swaggerDocument = YAML.load('./swagger_ssl.yaml');
-
-
-// 초기접속화면 : https://domain:443/api-docs 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-/*
-
-  app.listen(8000, () => {
-    console.log("\n\n\n =============== ndwrtc v0.5 5000 server listening on port 5000!");
-  });
-
-*/ 
-  
-// GET Call for all users
-app.get("/users", (req, res) => {
-
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-});
-
-app.get("/", (req, res) => {
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-});
-
-//  POST call - Means you are adding new user into database 
-app.post("/addUser", (req, res) => {
-
-  if (!req.body.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!req.body.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-  
-  const user = {
-    id: userList.length + 1,
-    isPublic: req.body.isPublic,
-    name:  req.body.name,
-    companies: req.body.companies,
-    books:  req.body.books
-  };
-  userList.push(user);
-  return res.status(201).send({
-    success: "true",
-    message: "user added successfully",
-    user,
-  });
-});
-
-//  PUt call - Means you are updating new user into database 
-
-app.put("/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  const userFound=findUserById(id)
-  
-
-  if (!userFound) {
-    return res.status(404).send({
-      success: 'false',
-      message: 'user not found',
-    });
-  }
-
-  const updatedUser= {
-      id: id,
-      isPublic: req.body.isPublic || userFound.body.isPublic,
-      name:req.body.name || userFound.body.name,
-      companies: req.body.companies || userFound.body.companies,
-      books: req.body.books || userFound.body.books
-   
-  };
-
-  if (!updatedUser.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!updatedUser.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-
-  for (let i = 0; i < userList.length; i++) {
-      if (userList[i].id === id) {
-          userList[i] = updatedUser;
-          return res.status(201).send({
-            success: 'true',
-            message: 'user updated successfully',
-            updatedUser
-          
-          });
-      }
-  }
-  return  res.status(404).send({
-            success: 'true',
-            message: 'error in update'
-           
-     });
-})
-
-//  Delete call - Means you are deleting new user from database 
-
-app.delete("/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  console.log(id)
-  for(let i = 0; i < userList.length; i++){
-      if(userList[i].id === id){
-           userList.splice(i,1);
-           return res.status(201).send({
-            success: 'true',
-            message: 'user deleted successfully'
-          });
-      }
-  }
-  return res.status(404).send({
-              success: 'true',
-              message: 'error in delete'   
-    });
-})
-
