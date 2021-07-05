@@ -111,15 +111,13 @@ app.listen(443, () => {
  
 app.use((req, res) => {
   let msg; 
-  msg = "Node myApp-Server V0.92 is running "; 
+  msg = " \n\n\n================================= >>>>. Node myApp-Server V0.92 is running "; 
   console.log(msg);   // 콘솔 
 });
 
 // 초기접속화면 : https://domain:443/api-docs 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
- 
-
-
+  
 console.log("============ START SWAGGER FOR SSL V1.1 ============= "); 
  
  
