@@ -169,14 +169,17 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 
  // =========== 31-b.  normal websocket ===============
  // 포트를 지정하지 않으면 기본 80 
+ /*
  const webSkt = new WebSocket.Server({
 	server: httpServer,
 	port: 1000,
 	path: "/socket"
 });
+*/ 
  
 
 //   socket connection test 
+/* 
 webSkt.on('connection', (wskt, request) => {
       
     // console.log(`C09. Conn Url ${request.url}`);
@@ -227,7 +230,7 @@ webSkt.on('connection', (wskt, request) => {
 });
 // EOF F31-b normal socket 
 
-
+*/ 
 
 // F30-c. socket Error  
 const sendError = (wskt, errmessage) => {
@@ -243,7 +246,7 @@ const sendError = (wskt, errmessage) => {
   
 	// Send Error Msg 
 	wskt.send(JSON.stringify(messageObject));
-  };
+};
   // EOF F30-c. 
 
 
