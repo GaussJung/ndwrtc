@@ -87,11 +87,13 @@
 </body>
  
 	<script>
-	      
+          
+        const baseURL = "https://myapp.nuriblock.com/"; 
+
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
 		  
-			console.log("========== ajaxemg V1.0 ============"); 
+			console.log("========== API V1.1 ============"); 
 			console.log("cmd >> node server.js or node sslserver.js"); 
 	 
             // F1. 최종정보 채우기 
@@ -115,19 +117,27 @@
 			// F9. 정보가져오기 
 			function doGetData() {
  
-				let targetURL 		= "/api/emergency"; 		// 비상대기 직원명단 
+                let targetURL;   // API호출주소 
+
                 let err 			= 0;						// 오류발생 여부 Flag
                
                 let messageStr 		= "";						// 메시지 문구 
                 
                 let moveURL			= ""; 						// 저장후 이동주소 
                 let tmpStr 			= "";						// 임시 문자열 
-				
+                          
+                console.log("L1 href=" + location.href);
+
+                if ( location.href.indexOf("localhost") > -1 )  {
+                    targetURL = "/api/emergency"; 	 
+                }
+                else {
+                    targetURL = baseURL + "/api/emergency"; 		 
+                }; 
+                
 				// initializing data 
 				doClearData();
-
-                 // V-10. 입력검증
-
+ 
                  // 1_1. 출력수량  
                  tmpStr = $("#bnum").val().trim(); 
 				 
