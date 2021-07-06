@@ -4,106 +4,78 @@
 
 var express = require('express');
 var router 	= express.Router();
- 
-//const io = require('socket.io');        // 소켙 객체 
- 
-/* GET users listing.  ( ex : 데이터베이스 접속 )
-router.get('/', function(req, res, next) {
-   res.send('respond with a resource');
-});
+const WebSocket = require('ws'); 
 
-*/
- 
 // F30 ================  웹소켓  ========================= 
  // 호출주소 
  // 일반접속  :  ws://serverip:1010/socket
  // 보안접속  :  wss://serverip:1010/socket
-
  
-const WebSocket = require('ws'); 
-
 var allmcnt   = 0;     // 전체 메시지 수량 
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
 //var socketPort = 1001; // 소켙 주소 1000로 설정 
 
-/*
-const webSkt = new WebSocket.Server({
-  port: socketPort,
-});
-*/ 
- 
-console.log("SC888 V2.35 webSkt created using io.connect"); 
-
-// F31-a. socket connection test 
-webSkt.on('connection', (wskt, request) => {
-      
-    // console.log(`C09. Conn Url ${request.url}`);
-    let conuri =  request.url; 
-
-    console.log( "SC10 conuri=" + conuri  ); 
-
-    let pfnow     = 0.0;        // 현재 시간 millisec 
-    let curmcnt   = 0.0;        // 현재메시지 수량 
+// F92. socket connection 설정   webSkt : 글로벌로 설정 
+webSkt.on('connection', (wskt) => {
   
-    conncnt++;  // 현재 접속 수량증대 
+  let pfnow     = 0.0;        // 현재 시간 millisec 
+  let curmcnt   = 0.0;        // 현재메시지 수량 
 
-    wskt.send('C10 Connected To Secure WebSocket V1.7 conncnt=' + conncnt);
+  conncnt++;  // 현재 접속 수량증대 
 
-    // F33-1. binding message 
-    wskt.on('message', (indata) => {
+  wskt.send(' Connected To Socket SecureWebSocket V1.715 conncnt=' + conncnt);
 
-      let fmessage  = "";
+  // F92-A. binding message 
+  wskt.on('message', (indata) => {
 
-      // 현재시간 ( millisec )
-      pfnow = process.hrtime(); 
-      curmcnt++;  // 현재메시지 수량 
-      allmcnt++;  // 전체 메시지 접속수량 증대 
-    
-      // console.log( "SC90 indata=" + JSON.stringify(indata) ); 
+    let fmessage  = "";
+
+    // 현재시간 ( millisec )
+    pfnow = process.hrtime(); 
+    curmcnt++;  // 현재메시지 수량 
+    allmcnt++;  // 전체 메시지 접속수량 증대 
+
+    // SF05. Parse Message 
+    try {
+    // fmessage = JSON.parse(indata);
+    fmessage = indata; 
+    // console.log( "SC91 success fmessage=" + indata ); 
+    } 
+    catch (err) {
+      sendError(wskt, 'Wrong format Err SE-150 err=' + err);
+      return;
+    }
+    // EOF SF05. 
+    let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+    let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
   
-      // SF05. Parse Message 
-      try {
-        // fmessage = JSON.parse(indata);
-        fmessage = indata; 
-        // console.log( "SC91 success fmessage=" + indata ); 
-      } 
-      catch (err) {
-        sendError(wskt, 'Wrong format Err SE-150 err=' + err);
-        return;
-      }
-      // EOF SF05. 
-      let metaStr = "V1.42 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
-      let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
-    
-      console.log( "SC92 finalMsg=" + finalMsg ); 
+    console.log( "SC92 finalMsg=" + finalMsg ); 
 
-      wskt.send(finalMsg); 
-      
-    });
-    // EOF F33-1. message binding 
-
+    wskt.send(finalMsg); 
+  
+  });
+  // EOF F33-1. message binding 
 
 });
-// EOF F31-a 
- 
+// EOF F92-A. binding message 
 
-// F30. socket Error  
+
+// F93. 소켙오류처리 
 const sendError = (wskt, errmessage) => {
 
-  const messageObject = {
-     type: 'ERROR',
-     payload: errmessage,
-  };
-
-  let outMsg = JSON.stringify(messageObject); 
-
-  console.log("SC100 Error outMsg=" + outMsg); 
-
-  // Send Error Msg 
-  wskt.send(JSON.stringify(messageObject));
+	const messageObject = {
+	   type: 'ERROR',
+	   payload: errmessage,
+	};
+  
+	let outMsg = JSON.stringify(messageObject); 
+  
+	console.log("SC100 Error outMsg=" + outMsg); 
+  
+	// Send Error Msg 
+	wskt.send(JSON.stringify(messageObject));
 };
-// EOF F30. 
-
+// EOF F93 
 
 module.exports = router;
 

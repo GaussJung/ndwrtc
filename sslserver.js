@@ -29,7 +29,7 @@ var empSetRouter  = require('./routes/emp');            // 직원관리 라우�
 var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
 
 // 소켙라우터 설정 
-// var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
+var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
  
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
@@ -65,8 +65,7 @@ app.use('/api/user', userManageRouter );
 
 // 사용자 라우팅 (api테스트)
 // app.use('/socket', userManageRouter );   
-
-
+ 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
 app.use(express.static('public'));
@@ -75,7 +74,7 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
  
  // 소켙 통신  :  https로 바로 진행 
-// app.use('/socket', socketRouter);      
+ app.use('/socket', socketRouter);      
 
 //  보안적용 (제외 - 때때로 문제유발 )
 // app.use(require('helmet')());
@@ -88,8 +87,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 
 // import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
 // const swaggerUi = require('swagger-ui-express');
-
-// const swaggerDocument = require('./swaggerSSL.json');   // json은 설정복잡
+// const swaggerDocument = require('./swaggerSSL.json');      // json은 설정복잡
 // const swaggerDocument = YAML.load('./swaggerSSL.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)
  
 // Swagger definition
@@ -149,17 +147,24 @@ httpsServer.listen(443, () => {
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-var socketPort = 443; // 소켙 주소 1000로 설정 
+// var socketPort = 443; // 소켙 주소 1000로 설정 
 
  // 웹소켙 
 const WebSocket = require('ws'); 
   
+var expressWs = require('express-ws')(app);
+
 const webSkt = new WebSocket.Server({
   server: httpsServer, 
   path: "/socket"
 });
+
+// 글로벌 웹소켙 
+global.webSkt = webSkt;
  
- 
+
+/* 
+=================== SOCKET ==================== 
 
 // F92. socket connection 설정 
 webSkt.on('connection', (wskt) => {
@@ -169,10 +174,6 @@ webSkt.on('connection', (wskt) => {
 
   conncnt++;  // 현재 접속 수량증대 
 
-  console.info("V1.1 Total connected clients:", webSkt.clients.size);
-
-  app.locals.clients = webSkt.clients;
-  
   wskt.send(' Connected To Socket SecureWebSocket V1.712 conncnt=' + conncnt);
 
   // F92-A. binding message 
@@ -227,4 +228,4 @@ const sendError = (wskt, errmessage) => {
 };
 // EOF F93 
 
- 
+*/ 
