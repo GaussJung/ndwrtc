@@ -51,6 +51,9 @@ sudo mkdir work
   sudo forever start server.js ( 영구동작 )  
   sudo npm start server.js ( ssh 접속중 동작, 로그파일 확인가능  )   
 
+  (보안서버접속)
+  sudo npm start sslserver.js ( ssh 접속중 동작, 로그파일 확인가능  )   
+
 - 메인페이지   
 http://도메인 or IP  
 
@@ -59,7 +62,9 @@ http://도메인 or IP/demo/wstest.html
 
 - 소켙주소    
 ws://도메인 or IP:1000/socket   
- 
+
+- SWAGGER 접속 
+http://도메인/api-docs/
  
 
 6. 보안 주소 접속 
