@@ -21,12 +21,15 @@ const express = require('express');     // 익스프레스 라이브러이
 const app  = express();                 // 노드 익스프레스앱   
 const io = require('socket.io');        // 소켙 객체 
  
-// 인원목록 출력 
-var memberRouter  = require('./routes/member');   // 회원목록 라우터 
-var emgRouter     = require('./routes/emgCall');  // 비상호출 라우터 
-var empSetRouter  = require('./routes/emp');      // 직원관리 라우터  
+// API라우터 설정  
+var memberRouter  = require('./routes/member');         // 회원목록 라우터 
+var emgRouter     = require('./routes/emgCall');        // 비상호출 라우터 
+var empSetRouter  = require('./routes/emp');            // 직원관리 라우터  
 var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
 
+// 소켙라우터 설정 
+var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
+ 
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
  
@@ -57,7 +60,13 @@ app.use('/api/emergency', emgRouter);
 app.use('/api/emp', empSetRouter);   
 
 // 사용자 라우팅 (api테스트)
- app.use('/api/user', userManageRouter );   
+app.use('/api/user', userManageRouter );   
+
+// 사용자 라우팅 (api테스트)
+app.use('/socket', userManageRouter );   
+
+ // 소켙 통신  
+ app.use('/socket', socketRouter);    
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
@@ -138,6 +147,7 @@ httpsServer.listen(443, () => {
 });
  
  
+/* 
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
@@ -214,3 +224,4 @@ const sendError = (wskt, errmessage) => {
 };
 // EOF F93 
 
+*/ 
