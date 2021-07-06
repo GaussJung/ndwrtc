@@ -29,7 +29,7 @@ var empSetRouter  = require('./routes/emp');            // 직원관리 라우�
 var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
 
 // 소켙라우터 설정 
-var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
+// var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
  
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
