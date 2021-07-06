@@ -64,7 +64,7 @@ app.use('/api/emp', empSetRouter);
 app.use('/api/user', userManageRouter );   
 
 // 사용자 라우팅 (api테스트)
-app.use('/socket', userManageRouter );   
+// app.use('/socket', userManageRouter );   
 
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
