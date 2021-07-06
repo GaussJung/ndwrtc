@@ -74,9 +74,6 @@ app.use(express.static('public'));
 // 노드 라이브러리 바로 사용 v0.313 
 app.use(express.static('node_modules'));
  
-// 엡에 소켙설정 ( express 4 이상 )
-// app.set('socketio', io);             
-
  // 소켙 통신  :  https로 바로 진행 
 // app.use('/socket', socketRouter);      
 
@@ -149,32 +146,30 @@ httpsServer.listen(443, () => {
 });
   
  
-
-
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
-// var socketPort = 443; // 소켙 주소 1000로 설정 
+var socketPort = 443; // 소켙 주소 1000로 설정 
 
  // 웹소켙 
 const WebSocket = require('ws'); 
   
-const wss = new WebSocket.Server({
-  server: httpsServer,
+const webSkt = new WebSocket.Server({
+  server: httpsServer, 
   path: "/socket"
 });
  
  
 
 // F92. socket connection 설정 
-wss.on('connection', (wskt) => {
+webSkt.on('connection', (wskt) => {
   
   let pfnow     = 0.0;        // 현재 시간 millisec 
   let curmcnt   = 0.0;        // 현재메시지 수량 
 
   conncnt++;  // 현재 접속 수량증대 
 
-  wskt.send(' Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
+  wskt.send(' Connected To Socket SecureWebSocket V1.71 conncnt=' + conncnt);
 
   // F92-A. binding message 
   wskt.on('message', (indata) => {
