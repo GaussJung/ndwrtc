@@ -133,6 +133,6 @@ const webSocket = require("./routes/webSocket");
 webSocket(httpsServer);
  
 // 별도 포트 생성 
-webSocket(httpsServer, 443, "/socket");
+webSocket(httpsServer, "/socket");
 
  
