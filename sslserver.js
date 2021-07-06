@@ -72,7 +72,10 @@ app.use(express.static('node_modules'));
 // 주의 : 아래 설정은 app listen이 있기 전에 진행! 
 
 const swaggerUi = require('swagger-ui-express');           // SWAGGER 호출 
-import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
+const swaggerJSDoc = require('swagger-jsdoc');
+
+// import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
+// const swaggerUi = require('swagger-ui-express');
 
 // const swaggerDocument = require('./swaggerSSL.json');   // json은 설정복잡
 // const swaggerDocument = YAML.load('./swaggerSSL.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)

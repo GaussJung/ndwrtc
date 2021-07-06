@@ -97,7 +97,7 @@ httpServer.listen(80, () => {
 // ========== 확인 : http://localhost/api-docs/ 
 
  
-import { getUserList ,findUserById } from "./user";
+import { getUserList, findUserById } from "./user";
  
 const userList = getUserList(); // assume for now this is your database
 
