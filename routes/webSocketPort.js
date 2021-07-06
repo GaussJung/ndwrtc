@@ -8,7 +8,7 @@ module.exports = function( paramServer, paramPort, paramPath ){
     // Simple   
     // const webSkt = new wsModlue.Server( {server:paramServer} );
  
-    webSkt = new wsModlue.Server({
+    const webSkt = new wsModlue.Server({
         server: paramServer,
         port: paramPort, 
         path: paramPath 
