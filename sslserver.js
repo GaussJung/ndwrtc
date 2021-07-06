@@ -130,9 +130,7 @@ httpsServer.listen(443, () => {
 // 웹소켙 라우팅 처리 
 const webSocket = require("./routes/webSocket"); 
  // 웹소켙은 서버와 동일 포트 사용 (80, 443) 혹은 지정 
-webSocket(httpsServer);
- 
-// 별도 경로 생성 
-webSocket(httpsServer);
+webSocket(httpsServer, "/socket");
+
 
  
