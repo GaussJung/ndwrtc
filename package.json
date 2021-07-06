@@ -13,6 +13,7 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.17.1",
+    "express-ws": "^5.0.2",
     "helmet": "^4.4.1",
     "jshashtable": "^0.1.0",
     "mariadb": "^2.5.2",

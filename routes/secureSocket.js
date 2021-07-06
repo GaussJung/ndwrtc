@@ -5,7 +5,7 @@
 var express = require('express');
 var router 	= express.Router();
  
-const io = require('socket.io');        // 소켙 객체 
+//const io = require('socket.io');        // 소켙 객체 
  
 /* GET users listing.  ( ex : 데이터베이스 접속 )
 router.get('/', function(req, res, next) {
@@ -24,34 +24,15 @@ const WebSocket = require('ws');
 
 var allmcnt   = 0;     // 전체 메시지 수량 
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
-var socketPort = 1001; // 소켙 주소 1000로 설정 
+//var socketPort = 1001; // 소켙 주소 1000로 설정 
 
- 
+/*
 const webSkt = new WebSocket.Server({
   port: socketPort,
 });
-  
-
-//var webSkt = io.connect('https://myapp.nuriblock.com', {secure: true});
-
+*/ 
+ 
 console.log("SC888 V2.35 webSkt created using io.connect"); 
-
-// F30. socket Error  
-const sendError = (wskt, errmessage) => {
-
-  const messageObject = {
-     type: 'ERROR',
-     payload: errmessage,
-  };
-
-  let outMsg = JSON.stringify(messageObject); 
-
-  console.log("SC100 Error outMsg=" + outMsg); 
-
-  // Send Error Msg 
-  wskt.send(JSON.stringify(messageObject));
-};
-// EOF F30. 
 
 // F31-a. socket connection test 
 webSkt.on('connection', (wskt, request) => {
@@ -105,5 +86,24 @@ webSkt.on('connection', (wskt, request) => {
 });
 // EOF F31-a 
  
+
+// F30. socket Error  
+const sendError = (wskt, errmessage) => {
+
+  const messageObject = {
+     type: 'ERROR',
+     payload: errmessage,
+  };
+
+  let outMsg = JSON.stringify(messageObject); 
+
+  console.log("SC100 Error outMsg=" + outMsg); 
+
+  // Send Error Msg 
+  wskt.send(JSON.stringify(messageObject));
+};
+// EOF F30. 
+
+
 module.exports = router;
 
