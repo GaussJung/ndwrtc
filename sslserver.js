@@ -143,26 +143,27 @@ httpsServer.listen(443, () => {
 	 console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
   
- 
+
+// 웹소켙 라우팅 처리 
+const webSocket = require("../routes/webSocket"); 
+// 웹소켙은 서버와 동일 포트 사용 (443)
+webSocket(httpsServer);
+
+
+/*
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 // var socketPort = 443; // 소켙 주소 1000로 설정 
- /*
+
  // 웹소켙 
 const WebSocket = require('ws'); 
 
-var webSkt = new WebSocket.Server({
+const webSkt = new WebSocket.Server({
   server: httpsServer, 
   path: "/socket"
 });
-*/
-
-// 글로벌 웹소켙 
-global.httpsServer = httpsServer;
  
-
-/* 
 =================== SOCKET ==================== 
 
 // F92. socket connection 설정 
