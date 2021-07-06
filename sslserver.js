@@ -3,49 +3,49 @@
 - PrgName : server.js at ndwrtc  
 - Date : 2020. 03. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v0.312  
+- Version : v2/07 
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
-1) startup : sudo node server.js  ( or sudo forever start server.js )  
+1) startup : sudo npm start server.js  ( or sudo forever start server.js )  
 2) stop : sudo killall node ( including other node service instances )
 3) desc 
 */ 
 
+// ============================================== F10. 기본 라이브러리 / 변수   ==============================================
 'use strict'; 
 
-const fs = require('fs');
-const http = require('http');
-const https = require('https');
-const express = require('express');
+const fs = require('fs');               // 파일처리 (인증서읽기)
+const httpsConnect = require('https');  // 보안접속 
+const express = require('express');     // 익스프레스 라이브러이 
 
-const app  = express();
+const app  = express();                 // 노드 익스프레스앱   
+const io = require('socket.io');        // 소켙 객체 
  
-const io = require('socket.io'); 
-
 // 인원목록 출력 
-var memberRouter  = require('./routes/member');    // 회원목록 라우터 
-var emgRouter     = require('./routes/emgCall');    // 비상호출 라우터 
-var empSetRouter   = require('./routes/emp');
-
-// 데이터셑 
- /*
-var gEmpFlagSet = require('./dataset/dataEmgSet');   // 비상호출 목록 
-
-var gEmpArr = [];     // 출동대기 직원목록 
-var gEmpOutStr = "";  // 출동대기 직원목록 문자열화 ( with join )
-
-global.gEmpFlagSet  = gEmpFlagSet;        // 직원목록 데이터셑 호출 객체 
-global.gEmpArr      = gEmpArr;            // 출동대기 직원목록 프로젝트 전역변수 선언 
-global.gEmpOutStr   = gEmpOutStr;         // 출동대기 직원목록 문자열 프로젝트 전역변수 선언 
- */ 
-// 소켙 
-// var socketRouter  = require('./routes/secureSocket');    // 소켙통신 
-
+var memberRouter  = require('./routes/member');   // 회원목록 라우터 
+var emgRouter     = require('./routes/emgCall');  // 비상호출 라우터 
+var empSetRouter  = require('./routes/emp');      // 직원관리 라우터  
+ 
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
+ 
+// ============================================== F15. 인증서설정    ==============================================
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
+// ============================================== F20. 앱설정    ==============================================
+// F21. 바디파서 설정 
 app.use(bodyParser.json());                         // POST 인자 파서 사용 
 app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
 
+// F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
 app.use('/member', memberRouter);
 
@@ -55,6 +55,7 @@ app.use('/emergency', emgRouter);
 // 목록호출 테스트 
 app.use('/emp', empSetRouter);   
 
+// F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
 app.use(express.static('public'));
 
@@ -64,65 +65,32 @@ app.use(express.static('node_modules'));
  // 소켙 통신  :  https로 바로 진행 
 // app.use('/socket', socketRouter);      
 
-//  보안적용 
+//  보안적용 (제외 - 때때로 문제유발 )
 // app.use(require('helmet')());
-
-// 인증서 적용 
  
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
+// ============================================== F30. API엔진 SWAGGER설정 ========================================== 
+// 주의 : 아래 설정은 app listen이 있기 전에 진행! 
 
- 
-const credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
-};
+const swaggerUi = require('swagger-ui-express');           // SWAGGER 호출 
+import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
 
+// const swaggerDocument = require('./swaggerSSL.json');   // json은 설정복잡
+const swaggerDocument = YAML.load('./swaggerSSL.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)
 
-  
-// ====================== SWAGGER ================================ 
-// ========== 확인 : http://localhost/api-docs/ 
-
- 
-import { getUserList, findUserById } from "./user";
- 
-const userList = getUserList(); // assume for now this is your database
-
-const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger_PREV.json');
-
-import YAML from 'yamljs';    // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
-
-const swaggerDocument = YAML.load('./swaggerSSL.yaml');
-
-
+// ========== 확인1       : http://localhost or domain/api-docs/ 
+// ========== 확인2 (ssl) : https://domain/api-docs/ 
 // 간단테스트1 : https://myapp.nuriblock.com/emergency
-// 간단테스트2 : https://myapp.nuriblock.com/member?bnum=7 
+// 간단테스트2 : https://myapp.nuriblock.com/member?bnum=7
 
-/*
-app.listen(443, () => {
-  console.log("\n\n\n =============== ndwrtc v0.5 server listening on port 443");
-});
-*/ 
-
-
- /*
-app.use((req, res) => {
-  let msg; 
-  msg = " \n\n\n================================= >>>>. Node myApp-Server V0.92 is running "; 
-  console.log(msg);   // 콘솔 
-});
-*/ 
-
-// 초기접속화면 : https://domain:443/api-docs 
+// User는 가상등록 참조 샘플API https://github.com/kirti/node-express-swagger-crud
+import {getUserList, findUserById } from "./user";
+ 
+const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
+ 
+// SWAGGER 사용설정  초기접속화면 : https://myapp.nuriblock.com/api-docs 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  
-console.log("============ START SWAGGER FOR SSL V1.1 ============= "); 
  
- 
-  
+// ============================================== F40. 샘플 API생성  ==============================================
 // GET Call for all users
 app.get("/users", (req, res) => {
 
@@ -131,8 +99,10 @@ app.get("/users", (req, res) => {
     message: "users",
     users: userList,
   });
+
 });
 
+/* 
 app.get("/", (req, res) => {
   return res.status(200).send({
     success: "true",
@@ -140,6 +110,7 @@ app.get("/", (req, res) => {
     users: userList,
   });
 });
+*/ 
 
 //  POST call - Means you are adding new user into database 
 app.post("/addUser", (req, res) => {
@@ -163,16 +134,18 @@ app.post("/addUser", (req, res) => {
     companies: req.body.companies,
     books:  req.body.books
   };
+
   userList.push(user);
+
   return res.status(201).send({
     success: "true",
     message: "user added successfully",
     user,
   });
+
 });
 
 //  PUt call - Means you are updating new user into database 
-
 app.put("/user/:userId", (req, res) => {
   console.log(req.params)
   const id = parseInt(req.params.userId, 10);
@@ -192,8 +165,7 @@ app.put("/user/:userId", (req, res) => {
       name:req.body.name || userFound.body.name,
       companies: req.body.companies || userFound.body.companies,
       books: req.body.books || userFound.body.books
-   
-  };
+   };
 
   if (!updatedUser.name) {
     return res.status(400).send({
@@ -218,15 +190,15 @@ app.put("/user/:userId", (req, res) => {
           });
       }
   }
+
   return  res.status(404).send({
             success: 'true',
             message: 'error in update'
-           
-     });
-})
+  });
+
+});
 
 //  Delete call - Means you are deleting new user from database 
-
 app.delete("/user/:userId", (req, res) => {
   console.log(req.params)
   const id = parseInt(req.params.userId, 10);
@@ -240,42 +212,46 @@ app.delete("/user/:userId", (req, res) => {
           });
       }
   }
+
   return res.status(404).send({
               success: 'true',
               message: 'error in delete'   
-    });
-})
+  });
 
- 
-
-
-//  리스터 Starting both http & https servers
-// const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
- 
-
-httpsServer.listen(443, () => {
-	console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
 
 
-// 이하 웹소켄 접속 
+// ============================================== F80. 서버생성 및 Listen ============================================== 
+// 보안접속 서버 생성 
+const httpsServer = httpsConnect.createServer(credentials, app);
+ 
+httpsServer.listen(443, () => {
+	 console.log('myApp  - B NODE HTTPS Server running on port 443');
+});
+
+/*
+보안접속 서버를 생성후에 Listen을 진행하였으므로 아래 항목 불필요 
+app.listen(443, () => { 
+   console.log("\n\n\n =============== ndwrtc v0.5 server listening on port 443");
+});
+*/ 
+
+ 
+// ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  
  // 웹소켙 
- const WebSocket = require('ws'); 
-
- //  console.log(" ============== myApp Test WebServer with webSocket V0.921 ============= "); 
-  
-// ============== 31-a secure websocket ================= 	port: 443 
+const WebSocket = require('ws'); 
+ 
+// F91. secure websocket 생성  
 const wss = new WebSocket.Server({
     server: httpsServer,
     path: "/socket"
 });
 
 
-// F31-a. socket connection test 
+// F92. socket connection 설정 
 wss.on('connection', (wskt) => {
   
   let pfnow     = 0.0;        // 현재 시간 millisec 
@@ -285,7 +261,7 @@ wss.on('connection', (wskt) => {
 
   wskt.send(' Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
 
-  // F33-1. binding message 
+  // F92-A. binding message 
   wskt.on('message', (indata) => {
 
     let fmessage  = "";
@@ -317,9 +293,10 @@ wss.on('connection', (wskt) => {
   // EOF F33-1. message binding 
 
 });
-// EOF F31-a  secureSocket 
+// EOF F92-A. binding message 
 
-// F30-c. socket Error  
+
+// F93. 소켙오류처리 
 const sendError = (wskt, errmessage) => {
 
 	const messageObject = {
@@ -334,5 +311,5 @@ const sendError = (wskt, errmessage) => {
 	// Send Error Msg 
 	wskt.send(JSON.stringify(messageObject));
 };
-  // EOF F30-c. 
+// EOF F93 
 
