@@ -120,7 +120,7 @@ function viewNameList(req, res, bnum) {
 // 아래와 같이 호출시에 목록을 get 및 post방식 모두로 호출함.  
 
 // ==========================  REQ1. 회원목록숫자  =====================
-// 방식1 : Get   >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/member?bnum=30 ) 
+// 방식1 : Get   >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/api/member?bnum=30 ) 
 router.get('/', (req, res) => {
 
   console.log("\n\n==========  GET START V1.09 ============= " + req.query.chcode);
@@ -131,7 +131,7 @@ router.get('/', (req, res) => {
 
 });
 
-// 방식2 : Post  >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/member  )
+// 방식2 : Post  >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/api/member  )
 router.post('/', (req, res) => {
   console.log("\n\n==========  POST V1.1 START ============= " + req.body.chcode);
   let bnum  = req.body.bnum;   // similar to 포스트 bnum 

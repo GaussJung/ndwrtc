@@ -47,13 +47,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩
 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
-app.use('/member', memberRouter);
+app.use('/api/member', memberRouter);
 
 // 비상호출 라우팅 
-app.use('/emergency', emgRouter);                    
+app.use('/api/emergency', emgRouter);                    
 
 // 목록호출 테스트 
-app.use('/emp', empSetRouter);   
+app.use('/api/emp', empSetRouter);   
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
@@ -94,7 +94,7 @@ const swaggerDefinition = {
       }
   },
   host: 'myapp.nuriblock.com:443', // the host or url of the app
-  basePath: '/', // the basepath of your endpoint
+  basePath: '/api', // the basepath of your endpoint
   schemes:'https',
   consumes:'application/json',
   produces: 'application/json'
@@ -105,14 +105,14 @@ const swagOptions = {
   // import swaggerDefinitions
   swaggerDefinition,
   // path to the API docs
-  apis: ['./docs/**/*.yaml'],
+  apis: ['./api-set/**/*.yaml'],
 };
 
 // initialize swagger-jsdoc
 const swaggerSpec = swaggerJSDoc(swagOptions);
 
 // use swagger-Ui-express for your app documentation endpoint
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ========== 확인1       : http://localhost or domain/api-docs/ 
 // ========== 확인2 (ssl) : https://domain/api-docs/ 
