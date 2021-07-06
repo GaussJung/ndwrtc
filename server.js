@@ -139,6 +139,6 @@ const webSocket = require("./routes/webSocket");
 // webSocket(httpServer);
 
 // 별도 포트 생성 
-webSocket(httpServer, 80, "/socket");
+webSocket(httpServer, 1000, "/socket");
 
  
