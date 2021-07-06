@@ -2,7 +2,7 @@
 const wsModlue = require("ws");
  
 // 참조 : https://nicgoon.tistory.com/235 
-module.exports = function( paramServer ){ 
+module.exports = function(paramServer){ 
 
     // 웹소켓 서버 생성 
     // Simple   
