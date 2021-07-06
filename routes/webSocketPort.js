@@ -1,19 +1,19 @@
-﻿// 포트 미지정 ( SSL의 경우 )
+﻿// webSocketPort 
+
 const wsModlue = require("ws");
- 
-// 참조 : https://nicgoon.tistory.com/235 
-module.exports = function( paramServer, paramPath ){ 
+  
+module.exports = function( paramServer, paramPort, paramPath ){ 
 
     // 웹소켓 서버 생성 
     // Simple   
     // const webSkt = new wsModlue.Server( {server:paramServer} );
-
-    // 포트와 경로지정 
-     const webSkt = new wsModlue.Server({
+ 
+    webSkt = new wsModlue.Server({
         server: paramServer,
+        port: paramPort, 
         path: paramPath 
     });
-
+  
     // CONTENT ========================================================================================  
     
     let allmcnt   = 0;     // 전체 메시지 수량 

@@ -134,11 +134,11 @@ httpServer.listen(80, () => {
 });
  
 // 웹소켙 라우팅 처리 
-const webSocket = require("./routes/webSocket"); 
+const webSocket = require("./routes/webSocketPort"); 
 // 웹소켙은 서버와 동일 포트 사용 (80, 443) 혹은 지정 
 // webSocket(httpServer);
 
-// 별도 포트 생성 
+// 별도 경로 및 포트 생성 
 webSocket(httpServer, 1000, "/socket");
 
  
