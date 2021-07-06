@@ -1,0 +1,47 @@
+---
+paths:
+  "/emergency":
+    get:
+      tags:
+      - employee
+      description: View employee get
+      parameters:
+      - name: bnum
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Department Code ex - D0 
+      produces:
+      - application/json
+      responses:
+        '200':
+          success: Whether or not to success
+          count: employee count to be requested
+          rowset: employee row from database
+    post:
+      tags:
+      - employee
+      description: Department Code ex - D0 
+      parameters:
+      - in: body
+        name: data
+        description: json object to request employee
+        required: false
+        schema:
+          "$ref": "#/definitions/Employee"
+      produces:
+      - application/json
+      responses:
+        '200':
+          success: Whether or not to success
+          count: employee count to be requested
+          rowset: employee row from database
+definitions:
+  Employee:
+    required:
+    - bnum
+    properties:
+      bnum:
+        type: string
+ 

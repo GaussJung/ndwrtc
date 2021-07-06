@@ -1,0 +1,56 @@
+---
+paths: 
+  "/member":
+    get:
+      tags:
+      - member
+      description: View Member get
+      parameters:
+      - name: bnum
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: count of member that we want to find
+      - name: chcode
+        in: query
+        required: false
+        schema:
+          type: string
+        description: api code name to process
+      produces:
+      - application/json
+      responses:
+        '200':
+          success: Whether or not to success
+          count: member count to be requested
+          chcode: application api process code
+          rowset: member row from database
+    post:
+      tags:
+      - member
+      description: View Member Post
+      parameters:
+      - in: body
+        name: data
+        description: json object to request member
+        required: false
+        schema:
+          "$ref": "#/definitions/Member"
+      produces:
+      - application/json
+      responses:
+        '200':
+          success: Whether or not to success
+          count: member count to be requested
+          chcode: application api process code
+          rowset: member row from database
+definitions:
+  Member:
+    required:
+    - bnum
+    properties:
+      bnum:
+        type: integer
+      chcode:
+        type: string

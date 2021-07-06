@@ -75,41 +75,9 @@ const swaggerUi = require('swagger-ui-express');           // SWAGGER 호출
 import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
 
 // const swaggerDocument = require('./swaggerSSL.json');   // json은 설정복잡
-// const swaggerDocument = YAML.load('./swaggerSSL.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)
- 
-// Swagger definition
-const swaggerDefinition = {
-  swagger:'2.0',
-  info: {
-    title: 'REST API for my App', // Title of the documentation
-    version: '1.0.0', // Version of the app
-    description: 'This is the REST API for Member System', // short description of the app
-    license: 
-      {
-        name : 'MIT',
-        url: 'https://opensource.org/licenses/MIT'
-      }
-  },
-  host: 'myapp.nuriblock.com:443', // the host or url of the app
-  basePath: '/api', // the basepath of your endpoint
-  schemes:'https',
-  consumes:'application/json',
-  produces: 'application/json'
-};
+const swaggerDocument = YAML.load('./swaggerSSL.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)
 
-// options for the swagger docs
-const options = {
-  // import swaggerDefinitions
-  swaggerDefinition,
-  // path to the API docs
-  apis: ['./docs/**/*.yaml'],
-};
 
-// initialize swagger-jsdoc
-const swaggerSpec = swaggerJSDoc(options);
-
-// use swagger-Ui-express for your app documentation endpoint
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ========== 확인1       : http://localhost or domain/api-docs/ 
 // ========== 확인2 (ssl) : https://domain/api-docs/ 
@@ -121,8 +89,11 @@ import {getUserList, findUserById } from "./user";
  
 const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
  
+
+ 
+
 // SWAGGER 사용설정  초기접속화면 : https://myapp.nuriblock.com/api-docs 
-// 싱글버전 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  
 // ============================================== F40. 샘플 API생성  ==============================================
 // GET Call for all users

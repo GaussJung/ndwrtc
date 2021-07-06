@@ -119,6 +119,7 @@ function viewNameList(req, res, bnum) {
 // G1
 // 아래와 같이 호출시에 목록을 get 및 post방식 모두로 호출함.  
 
+// ==========================  REQ1. 회원목록숫자  =====================
 // 방식1 : Get   >    localhost/namelist  호출시 목록 출력  ( ex : http://localhost/member?bnum=30 ) 
 router.get('/', (req, res) => {
 
@@ -140,4 +141,7 @@ router.post('/', (req, res) => {
  
 });
  
+// ==========================  REQ3. 특정회원 가져오기 =====================
+
+
 module.exports = router;
