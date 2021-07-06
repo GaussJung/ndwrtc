@@ -145,8 +145,7 @@ const httpsServer = httpsConnect.createServer(credentials, app);
 httpsServer.listen(443, () => {
 	 console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
- 
- 
+  
 /* 
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
