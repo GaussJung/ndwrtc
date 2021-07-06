@@ -29,7 +29,7 @@ var empSetRouter  = require('./routes/emp');            // 직원관리 라우�
 var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
 
 // 소켙라우터 설정 
-var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
+// var socketRouter  = require('./routes/secureSocket');   // SSL소켙라우터 
  
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
@@ -74,7 +74,7 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
  
  // 소켙 통신  :  https로 바로 진행 
- app.use('/socket', socketRouter);      
+ // app.use('/socket', socketRouter);      
 
 //  보안적용 (제외 - 때때로 문제유발 )
 // app.use(require('helmet')());
