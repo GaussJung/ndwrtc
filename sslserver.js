@@ -94,14 +94,14 @@ const swaggerDefinition = {
       }
   },
   host: 'myapp.nuriblock.com:443', // the host or url of the app
-  basePath: '/api', // the basepath of your endpoint
+  basePath: '/', // the basepath of your endpoint
   schemes:'https',
   consumes:'application/json',
   produces: 'application/json'
 };
 
 // options for the swagger docs
-const options = {
+const swagOptions = {
   // import swaggerDefinitions
   swaggerDefinition,
   // path to the API docs
@@ -109,7 +109,7 @@ const options = {
 };
 
 // initialize swagger-jsdoc
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(swagOptions);
 
 // use swagger-Ui-express for your app documentation endpoint
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
