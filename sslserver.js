@@ -169,7 +169,7 @@ webSkt.on('connection', (wskt) => {
 
   conncnt++;  // 현재 접속 수량증대 
 
-  wskt.send(' Connected To Socket SecureWebSocket V1.71 conncnt=' + conncnt);
+  wskt.send(' Connected To Socket SecureWebSocket V1.712 conncnt=' + conncnt);
 
   // F92-A. binding message 
   wskt.on('message', (indata) => {
