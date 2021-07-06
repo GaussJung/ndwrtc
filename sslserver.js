@@ -19,8 +19,7 @@ const httpsConnect = require('https');  // 보안접속
 const express = require('express');     // 익스프레스 라이브러이 
 
 const app  = express();                 // 노드 익스프레스앱   
-const io = require('socket.io');        // 소켙 객체 
- 
+
 // API라우터 설정  
 var memberRouter  = require('./routes/member');         // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');        // 비상호출 라우터 
@@ -65,8 +64,6 @@ app.use('/api/user', userManageRouter );
 // 사용자 라우팅 (api테스트)
 app.use('/socket', userManageRouter );   
 
- // 소켙 통신  
- app.use('/socket', socketRouter);    
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
@@ -146,7 +143,7 @@ httpsServer.listen(443, () => {
 	 console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
   
-/* 
+ 
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
@@ -155,11 +152,26 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 const WebSocket = require('ws'); 
  
 // F91. secure websocket 생성  
+/*
 const wss = new WebSocket.Server({
     server: httpsServer,
     path: "/socket"
 });
+*/ 
 
+console.log("SC10  APP Port=" + app.get('port') ); 
+
+const mySocketServer = app.listen(app.get('port'), () => {
+  console.log(app.get('port'), '번 포트에서 대기중');
+});
+
+// 소켙서버 전역설정 
+webSocket(mySocketServer);
+
+ // 소켙 통신  
+ app.use('/socket', socketRouter);    
+
+/*
 
 // F92. socket connection 설정 
 wss.on('connection', (wskt) => {
