@@ -52,8 +52,11 @@ app.use('/api/member', memberRouter);
 // 비상호출 라우팅 
 app.use('/api/emergency', emgRouter);                    
 
-// 목록호출 테스트 
+// 목록호출 라우팅 
 app.use('/api/emp', empSetRouter);   
+
+// 사용자 라우팅 (api테스트)
+// app.use('/api/user', userRouter);   
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
@@ -129,7 +132,7 @@ const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( 
  
 // ============================================== F40. 샘플 API생성  ==============================================
 // GET Call for all users
-app.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
 
   return res.status(200).send({
     success: "true",
@@ -150,7 +153,7 @@ app.get("/", (req, res) => {
 */ 
 
 //  POST call - Means you are adding new user into database 
-app.post("/addUser", (req, res) => {
+app.post("/api/addUser", (req, res) => {
 
   if (!req.body.name) {
     return res.status(400).send({
@@ -183,7 +186,7 @@ app.post("/addUser", (req, res) => {
 });
 
 //  PUt call - Means you are updating new user into database 
-app.put("/user/:userId", (req, res) => {
+app.put("/api/user/:userId", (req, res) => {
   console.log(req.params)
   const id = parseInt(req.params.userId, 10);
   const userFound=findUserById(id)
@@ -236,7 +239,7 @@ app.put("/user/:userId", (req, res) => {
 });
 
 //  Delete call - Means you are deleting new user from database 
-app.delete("/user/:userId", (req, res) => {
+app.delete("/api/user/:userId", (req, res) => {
   console.log(req.params)
   const id = parseInt(req.params.userId, 10);
   console.log(id)
