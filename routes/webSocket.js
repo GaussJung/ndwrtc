@@ -1,11 +1,20 @@
 ﻿const wsModlue = require("ws");
  
 // 참조 : https://nicgoon.tistory.com/235 
-module.exports = function( paramServer ){ 
+module.exports = function( paramServer, paramPort, paramPath ){ 
 
     // 웹소켓 서버 생성 
-    const webSkt = new wsModlue.Server( {server:paramServer} );
+    // Simple   
+    // const webSkt = new wsModlue.Server( {server:paramServer} );
 
+    // 포트와 경로지정 
+    const webSkt = new wsModlue.Server({
+        server: paramServer,
+        port: paramPort, 
+        path: paramPath 
+    });
+
+    
     // CONTENT ========================================================================================  
     
     let allmcnt   = 0;     // 전체 메시지 수량 
