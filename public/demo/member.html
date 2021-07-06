@@ -86,11 +86,13 @@
 </body>
  
 	<script>
-	      
+		  
+		const baseURL = "https://myapp.nuriblock.com/"; 
+
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
 		  
-			console.log("========== ajaxdb V1.0 ============"); 
+			console.log("========== API ajax V1.1 ============"); 
 			console.log("url >> http://localhost/demo/member.html  ============"); 
 
             // F1. 최종정보 채우기 
@@ -109,14 +111,24 @@
 			// F9. 정보가져오기 
 			function doGetData() {
  
-				let targetURL 		= "/api/member"; 				// OLD namelist";   	    저장호출 주소 ( 처리 결과 JSON전달 핸들러 ) 
-                let err 			= 0;						// 오류발생 여부 Flag
+				let targetURL;   // API호출주소 
+ 
+				let err 			= 0;						// 오류발생 여부 Flag
                
                 let messageStr 		= "";						// 메시지 문구 
                 
                 let moveURL			= ""; 						// 저장후 이동주소 
                 let tmpStr 			= "";						// 임시 문자열 
-				
+						 
+				console.log("L1 href=" + location.href);
+
+				if ( location.href.indexOf("localhost") > -1 )  {
+					targetURL = "/api/member"; 	 
+				}
+				else {
+					targetURL =  baseURL + "/api/member"; 		 
+				}; 
+ 
 				// initializing data 
 				doClearData();
 
