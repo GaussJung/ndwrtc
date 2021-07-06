@@ -145,7 +145,7 @@ httpsServer.listen(443, () => {
   
 
 // 웹소켙 라우팅 처리 
-const webSocket = require("../routes/webSocket"); 
+const webSocket = require("./routes/webSocket"); 
 // 웹소켙은 서버와 동일 포트 사용 (443)
 webSocket(httpsServer);
 
