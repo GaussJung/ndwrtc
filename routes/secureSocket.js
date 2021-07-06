@@ -34,7 +34,7 @@ const webSkt = new WebSocket.Server({
 
 //var webSkt = io.connect('https://myapp.nuriblock.com', {secure: true});
 
-console.log("SC888 webSkt created using io.connect"); 
+console.log("SC888 V2.35 webSkt created using io.connect"); 
 
 // F30. socket Error  
 const sendError = (wskt, errmessage) => {

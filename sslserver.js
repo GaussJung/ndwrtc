@@ -164,7 +164,7 @@ const mySocketServer = new WebSocket.Server({
 });
  
 
-console.log("SC10  APP Port=" + app.get('port') ); 
+console.log("SC10 V111 APP Port=" + app.get('port') ); 
 
 /*
 const mySocketServer = app.listen(app.get('port'), () => {
