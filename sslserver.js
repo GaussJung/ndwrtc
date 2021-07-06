@@ -159,7 +159,6 @@ const WebSocket = require('ws');
   
 const wss = new WebSocket.Server({
   server: httpsServer,
-  port: socketPort,
   path: "/socket"
 });
  
