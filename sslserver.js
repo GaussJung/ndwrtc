@@ -133,6 +133,6 @@ const webSocket = require("./routes/webSocket");
 webSocket(httpsServer);
  
 // 별도 경로 생성 
-webSocket(httpsServer, "/socket");
+webSocket(httpsServer,"/socket");
 
  
