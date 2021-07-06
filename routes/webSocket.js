@@ -2,40 +2,76 @@
  
 // 참조 : https://nicgoon.tistory.com/235 
 module.exports = function( paramServer ){ 
+
     // 웹소켓 서버 생성 
-    const wss = new wsModlue.Server( {server:paramServer} );
+    const webSkt = new wsModlue.Server( {server:paramServer} );
 
-    // 클리이언트가 접속 이벤트 메소드 
-    wss.on( 'connection', function( ws, req ){
+    // CONTENT ========================================================================================  
+    
+    let allmcnt   = 0;     // 전체 메시지 수량 
+    let conncnt   = 0;     // 소켙 접속 횟수 (전체)
 
-        // 사용자 접속IP 
-        let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    // F92. socket connection 설정   webSkt : 글로벌로 설정 
+    webSkt.on('connection', (wskt) => {
+    
+    let pfnow     = 0.0;        // 현재 시간 millisec 
+    let curmcnt   = 0.0;        // 현재메시지 수량 
+    let fmessage  = "";
 
-        console.log( ip + "아이피의 클라이언트로 부터 접속 요청이 있었습니다." );
+    conncnt++;  // 현재 접속 수량증대 
 
-        // 메시지 수신 
-        ws.on('message', function( message ){
+    wskt.send(' Connected To Socket V1.715 conncnt=' + conncnt);
 
-            // 받은 메시지를 출력합니다.
-            console.log( ip + "  --->  " + message );
+    // F92-A. binding message 
+    wskt.on('message', (indata) => {
+ 
+        // 현재시간 ( millisec )
+        pfnow = process.hrtime(); 
+        curmcnt++;  // 현재메시지 수량 
+        allmcnt++;  // 전체 메시지 접속수량 증대 
 
-            // 클라이언트에 받은 메시지를 그대로 보내, 통신이 잘되고 있는지 확인합니다.
-            ws.send( "V1.1 echo:" + message );
+        // SF05. Parse Message 
+        try {
+            // fmessage = JSON.parse(indata);
+            fmessage = indata; 
+            // console.log( "SC91 success fmessage=" + indata ); 
+        } 
+        catch (err) {
+            sendError(wskt, 'Wrong format Err SE-150 err=' + err);
+            return;
+        }
 
-        });
+        // EOF SF05. 
+        let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+        let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
+    
+        console.log( "SC92 finalMsg=" + finalMsg ); 
 
-        // 오류가 발생한 경우 호출되는 이벤트 메소드 입니다.
-        ws.on('error', function(error){
-            console.log( ip + "  --->  " + error );
-        })
-
-        // 접속이 종료되면, 호출되는 이벤트 메소드 입니다.
-        ws.on('close', function(){
-            console.log( ip + "  ---> 접속종료 " );
-        })
-
+        wskt.send(finalMsg); 
+    
+    });
+    // EOF F33-1. message binding 
 
     });
+    // EOF F92-A. binding message 
 
 
+    // F93. 소켙오류처리 
+    const sendError = (wskt, errmessage) => {
+
+        const messageObject = {
+        type: 'ERROR',
+        payload: errmessage,
+        };
+    
+        let outMsg = JSON.stringify(messageObject); 
+    
+        console.log("SC100 Error outMsg=" + outMsg); 
+    
+        // Send Error Msg 
+        wskt.send(JSON.stringify(messageObject));
+    };
+
+    //  CONTENT ========================================================================================  
+ 
 }
