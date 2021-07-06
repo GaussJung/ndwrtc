@@ -1,6 +1,6 @@
 ---
 paths:
-  "/addUser":
+  "/user/addUser":
     post:
       tags:
       - Users
@@ -18,7 +18,7 @@ paths:
           description: New user is created
           schema:
             "$ref": "#/definitions/User"
-  "/list":
+  "/user/list":
     get:
       tags:
       - Users
@@ -28,7 +28,7 @@ paths:
           description: OK
           schema:
             "$ref": "#/definitions/Users"
-  "/{id}":
+  "/user/{id}":
     parameters:
     - name: id
       in: path
