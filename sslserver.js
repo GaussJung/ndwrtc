@@ -1,14 +1,14 @@
 ﻿/*
 - PrgId : UT-ND-1000 
 - PrgName : server.js at ndwrtc  
-- Date : 2020. 03. 04 
+- Date : 2021. 07. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v2/07 
+- Version : v2.21 
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
 1) startup : sudo npm start server.js  ( or sudo forever start server.js )  
 2) stop : sudo killall node ( including other node service instances )
-3) desc 
+3) desc : SWAGGER 설정 추가 
 */ 
 
 // ============================================== F10. 기본 라이브러리 / 변수   ==============================================
@@ -25,7 +25,8 @@ const io = require('socket.io');        // 소켙 객체
 var memberRouter  = require('./routes/member');   // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');  // 비상호출 라우터 
 var empSetRouter  = require('./routes/emp');      // 직원관리 라우터  
- 
+var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
+
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
  
@@ -56,7 +57,7 @@ app.use('/api/emergency', emgRouter);
 app.use('/api/emp', empSetRouter);   
 
 // 사용자 라우팅 (api테스트)
-// app.use('/api/user', userRouter);   
+ app.use('/api/user', userManageRouter );   
 
 // F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
@@ -118,148 +119,15 @@ const swaggerSpec = swaggerJSDoc(swagOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ========== 확인1       : http://localhost or domain/api-docs/ 
-// ========== 확인2 (ssl) : https://domain/api-docs/ 
-// 간단테스트1 : https://myapp.nuriblock.com/emergency
-// 간단테스트2 : https://myapp.nuriblock.com/member?bnum=7
+// ========== 확인2 (ssl) : https://domain:port/api-docs/ 
+// 간단테스트1 : https://myapp.nuriblock.com/api/emergency
+// 간단테스트2 : https://myapp.nuriblock.com/api/member?bnum=7
 
 // User는 가상등록 참조 샘플API https://github.com/kirti/node-express-swagger-crud
-import {getUserList, findUserById } from "./user";
- 
-const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
- 
+
 // SWAGGER 사용설정  초기접속화면 : https://myapp.nuriblock.com/api-docs 
 // 싱글버전 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  
-// ============================================== F40. 샘플 API생성  ==============================================
-// GET Call for all users
-app.get("/api/users", (req, res) => {
-
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-
-});
-
-/* 
-app.get("/", (req, res) => {
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-});
-*/ 
-
-//  POST call - Means you are adding new user into database 
-app.post("/api/addUser", (req, res) => {
-
-  if (!req.body.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!req.body.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-  
-  const user = {
-    id: userList.length + 1,
-    isPublic: req.body.isPublic,
-    name:  req.body.name,
-    companies: req.body.companies,
-    books:  req.body.books
-  };
-
-  userList.push(user);
-
-  return res.status(201).send({
-    success: "true",
-    message: "user added successfully",
-    user,
-  });
-
-});
-
-//  PUt call - Means you are updating new user into database 
-app.put("/api/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  const userFound=findUserById(id)
-  
-
-  if (!userFound) {
-    return res.status(404).send({
-      success: 'false',
-      message: 'user not found',
-    });
-  }
-
-  const updatedUser= {
-      id: id,
-      isPublic: req.body.isPublic || userFound.body.isPublic,
-      name:req.body.name || userFound.body.name,
-      companies: req.body.companies || userFound.body.companies,
-      books: req.body.books || userFound.body.books
-   };
-
-  if (!updatedUser.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!updatedUser.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-
-  for (let i = 0; i < userList.length; i++) {
-      if (userList[i].id === id) {
-          userList[i] = updatedUser;
-          return res.status(201).send({
-            success: 'true',
-            message: 'user updated successfully',
-            updatedUser
-          
-          });
-      }
-  }
-
-  return  res.status(404).send({
-            success: 'true',
-            message: 'error in update'
-  });
-
-});
-
-//  Delete call - Means you are deleting new user from database 
-app.delete("/api/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  console.log(id)
-  for(let i = 0; i < userList.length; i++){
-      if(userList[i].id === id){
-           userList.splice(i,1);
-           return res.status(201).send({
-            success: 'true',
-            message: 'user deleted successfully'
-          });
-      }
-  }
-
-  return res.status(404).send({
-              success: 'true',
-              message: 'error in delete'   
-  });
-
-});
-
 
 // ============================================== F80. 서버생성 및 Listen ============================================== 
 // 보안접속 서버 생성 
@@ -268,14 +136,7 @@ const httpsServer = httpsConnect.createServer(credentials, app);
 httpsServer.listen(443, () => {
 	 console.log('myApp  - B NODE HTTPS Server running on port 443');
 });
-
-/*
-보안접속 서버를 생성후에 Listen을 진행하였으므로 아래 항목 불필요 
-app.listen(443, () => { 
-   console.log("\n\n\n =============== ndwrtc v0.5 server listening on port 443");
-});
-*/ 
-
+ 
  
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
