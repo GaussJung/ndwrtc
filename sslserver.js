@@ -20,7 +20,7 @@ const express = require('express');     // 익스프레스 라이브러이
 
 const app  = express();                 // 노드 익스프레스앱   
 
-const io = require('socket.io');        // 소켙 객체 
+// const io = require('socket.io');        // 소켙 객체 
 
 // API라우터 설정  
 var memberRouter  = require('./routes/member');         // 회원목록 라우터 
@@ -75,7 +75,7 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
  
 // 엡에 소켙설정 ( express 4 이상 )
-app.set('socketio', io);             
+// app.set('socketio', io);             
 
  // 소켙 통신  :  https로 바로 진행 
 // app.use('/socket', socketRouter);      
@@ -152,31 +152,16 @@ httpsServer.listen(443, () => {
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
- 
+var socketPort = 443; // 소켙 주소 1000로 설정 
+
  // 웹소켙 
 const WebSocket = require('ws'); 
- 
-// F91. secure websocket 생성  
- 
-const mySocketServer = new WebSocket.Server({
-    server: httpsServer,
-    path: "/socket"
-});
- 
-
-console.log("SC10 V111 APP Port=" + app.get('port') ); 
-
-/*
-const mySocketServer = app.listen(app.get('port'), () => {
-  console.log(app.get('port'), '번 포트에서 대기중');
-});
-*/ 
- 
+  
 const wss = new WebSocket.Server({
   server: httpsServer,
+  port: socketPort,
   path: "/socket"
 });
- 
  
  
 
