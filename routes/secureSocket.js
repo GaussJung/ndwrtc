@@ -24,15 +24,15 @@ const WebSocket = require('ws');
 
 var allmcnt   = 0;     // 전체 메시지 수량 
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
-var socketPort = 443; // 소켙 주소 1000로 설정 
+var socketPort = 1001; // 소켙 주소 1000로 설정 
 
-/*
+ 
 const webSkt = new WebSocket.Server({
   port: socketPort,
 });
-*/ 
+  
 
-var webSkt = io.connect('https://myapp.nuriblock.com', {secure: true});
+//var webSkt = io.connect('https://myapp.nuriblock.com', {secure: true});
 
 console.log("SC888 webSkt created using io.connect"); 
 
