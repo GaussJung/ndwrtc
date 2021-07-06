@@ -47,8 +47,8 @@ const credentials = {
 
 // ============================================== F20. 앱설정    ==============================================
 // F21. 바디파서 설정 
-app.use(bodyParser.json());                         // POST 인자 파서 사용 
-app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
+//app.use(bodyParser.json());                         // POST 인자 파서 사용 
+//app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
@@ -171,21 +171,14 @@ const mySocketServer = app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기중');
 });
 */ 
-
-/*
+ 
 const wss = new WebSocket.Server({
   server: httpsServer,
   path: "/socket"
 });
-*/ 
-
-// 소켙서버 전역설정 
-// new WebSocket(mySocketServer);
-
- // 소켙 통신  
- // app.use('/socket', socketRouter);    
-
-/*
+ 
+ 
+ 
 
 // F92. socket connection 설정 
 wss.on('connection', (wskt) => {
@@ -249,4 +242,4 @@ const sendError = (wskt, errmessage) => {
 };
 // EOF F93 
 
-*/ 
+ 
