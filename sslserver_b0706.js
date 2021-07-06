@@ -20,8 +20,6 @@ const express = require('express');     // 익스프레스 라이브러이
 
 const app  = express();                 // 노드 익스프레스앱   
 
-const io = require('socket.io');        // 소켙 객체 
-
 // API라우터 설정  
 var memberRouter  = require('./routes/member');         // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');        // 비상호출 라우터 
@@ -74,9 +72,6 @@ app.use(express.static('public'));
 // 노드 라이브러리 바로 사용 v0.313 
 app.use(express.static('node_modules'));
  
-// 엡에 소켙설정 ( express 4 이상 )
-app.set('socketio', io);             
-
  // 소켙 통신  :  https로 바로 진행 
 // app.use('/socket', socketRouter);      
 
