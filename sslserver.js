@@ -152,21 +152,30 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 const WebSocket = require('ws'); 
  
 // F91. secure websocket 생성  
-/*
-const wss = new WebSocket.Server({
+ 
+const mySocketServer = new WebSocket.Server({
     server: httpsServer,
     path: "/socket"
 });
-*/ 
+ 
 
 console.log("SC10  APP Port=" + app.get('port') ); 
 
+/*
 const mySocketServer = app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기중');
 });
+*/ 
+
+/*
+const wss = new WebSocket.Server({
+  server: httpsServer,
+  path: "/socket"
+});
+*/ 
 
 // 소켙서버 전역설정 
-WebSocket(mySocketServer);
+new WebSocket(mySocketServer);
 
  // 소켙 통신  
  app.use('/socket', socketRouter);    
