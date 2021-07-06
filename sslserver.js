@@ -175,10 +175,10 @@ const wss = new WebSocket.Server({
 */ 
 
 // 소켙서버 전역설정 
-new WebSocket(mySocketServer);
+// new WebSocket(mySocketServer);
 
  // 소켙 통신  
- app.use('/socket', socketRouter);    
+ // app.use('/socket', socketRouter);    
 
 /*
 
