@@ -17,8 +17,9 @@
 const fs = require('fs');               // 파일처리 (인증서읽기)
 const httpsConnect = require('https');  // 보안접속 
 const express = require('express');     // 익스프레스 라이브러이 
-const app = express();                 // 노드 익스프레스앱   
- 
+const app = express();                  // 노드 익스프레스앱   
+const cors = require('cors');           // 자원공유설정 
+
 // API라우터 설정  
 var memberRouter  = require('./routes/member');         // 회원목록 라우터 
 var emgRouter     = require('./routes/emgCall');        // 비상호출 라우터 
@@ -43,6 +44,20 @@ const credentials = {
 // F21. 바디파서 설정 
 app.use(bodyParser.json());                         // POST 인자 파서 사용 
 app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
+
+
+// F21_1. 공유자원설정 
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.options('*',cors(corsOptions));
+app.use(cors(corsOptions));
+app.use(cors({origin : "https://wrtc.soystudy.com"}));
+
 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
