@@ -148,19 +148,18 @@ httpsServer.listen(443, () => {
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
 // var socketPort = 443; // 소켙 주소 1000로 설정 
-
+ /*
  // 웹소켙 
 const WebSocket = require('ws'); 
-  
-var expressWs = require('express-ws')(app);
 
 var webSkt = new WebSocket.Server({
   server: httpsServer, 
   path: "/socket"
 });
+*/
 
 // 글로벌 웹소켙 
-global.webSkt = webSkt;
+global.httpsServer = httpsServer;
  
 
 /* 

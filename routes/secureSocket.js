@@ -6,9 +6,11 @@ var express = require('express');
 var router 	= express.Router();
 const WebSocket = require('ws'); 
 
-var wss = webSkt;
+var webSkt = new WebSocket.Server({
+  server: httpsServer, 
+  path: "/socket"
+});
  
-
 // F30 ================  웹소켓  ========================= 
  // 호출주소 
  // 일반접속  :  ws://serverip:1010/socket
@@ -19,7 +21,7 @@ var conncnt   = 0;     // 소켙 접속 횟수 (전체)
 //var socketPort = 1001; // 소켙 주소 1000로 설정 
 
 // F92. socket connection 설정   webSkt : 글로벌로 설정 
-wss.on('connection', (wskt) => {
+webSkt.on('connection', (wskt) => {
   
   let pfnow     = 0.0;        // 현재 시간 millisec 
   let curmcnt   = 0.0;        // 현재메시지 수량 
