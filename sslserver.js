@@ -166,7 +166,7 @@ const mySocketServer = app.listen(app.get('port'), () => {
 });
 
 // 소켙서버 전역설정 
-webSocket(mySocketServer);
+WebSocket(mySocketServer);
 
  // 소켙 통신  
  app.use('/socket', socketRouter);    
