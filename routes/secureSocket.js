@@ -4,7 +4,9 @@
 
 var express = require('express');
 var router 	= express.Router();
-
+ 
+const io = require('socket.io');        // 소켙 객체 
+ 
 /* GET users listing.  ( ex : 데이터베이스 접속 )
 router.get('/', function(req, res, next) {
    res.send('respond with a resource');
@@ -24,10 +26,15 @@ var allmcnt   = 0;     // 전체 메시지 수량
 var conncnt   = 0;     // 소켙 접속 횟수 (전체)
 var socketPort = 443; // 소켙 주소 1000로 설정 
 
+/*
 const webSkt = new WebSocket.Server({
   port: socketPort,
 });
+*/ 
 
+var webSkt = io.connect('https://myapp.nuriblock.com', {secure: true});
+
+console.log("SC888 webSkt created using io.connect"); 
 
 // F30. socket Error  
 const sendError = (wskt, errmessage) => {
