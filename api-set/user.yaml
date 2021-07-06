@@ -18,7 +18,7 @@ paths:
           description: New user is created
           schema:
             "$ref": "#/definitions/User"
-  "/users":
+  "/list":
     get:
       tags:
       - Users
@@ -28,7 +28,7 @@ paths:
           description: OK
           schema:
             "$ref": "#/definitions/Users"
-  "/user/{id}":
+  "/{id}":
     parameters:
     - name: id
       in: path
