@@ -169,6 +169,10 @@ webSkt.on('connection', (wskt) => {
 
   conncnt++;  // 현재 접속 수량증대 
 
+  console.info("V1.1 Total connected clients:", webSkt.clients.size);
+
+  app.locals.clients = webSkt.clients;
+  
   wskt.send(' Connected To Socket SecureWebSocket V1.712 conncnt=' + conncnt);
 
   // F92-A. binding message 
