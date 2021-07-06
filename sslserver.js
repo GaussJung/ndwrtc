@@ -154,7 +154,7 @@ const WebSocket = require('ws');
   
 var expressWs = require('express-ws')(app);
 
-const webSkt = new WebSocket.Server({
+var webSkt = new WebSocket.Server({
   server: httpsServer, 
   path: "/socket"
 });
