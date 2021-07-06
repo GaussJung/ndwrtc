@@ -7,7 +7,6 @@ var router 	= express.Router();
 const WebSocket = require('ws'); 
 
 var webSkt = new WebSocket.Server({
-  server: httpsServer, 
   path: "/socket"
 });
  
