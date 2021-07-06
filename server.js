@@ -1,243 +1,141 @@
-﻿
-
-/*
+﻿/*
 - PrgId : UT-ND-1000 
 - PrgName : server.js at ndwrtc  
-- Date : 2020. 03. 04 
+- Date : 2021. 07. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v0.313  
+- Version : v2.21 
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
-1) startup : sudo node server.js  ( or sudo forever start server.js )  
+1) startup : sudo npm start server.js  ( or sudo forever start server.js )  
 2) stop : sudo killall node ( including other node service instances )
-3) desc 
+3) desc : SWAGGER 설정 추가 
 */ 
 
-
+// ============================================== F10. 기본 라이브러리 / 변수   ==============================================
 'use strict'; 
 
-const fs = require('fs');
-const http = require('http');
-const https = require('https');
-const express = require('express');
-
-// 익스프레스 앱객체 생성 
-const app  = express();
-
-// 소켙IO생성 
-const io = require('socket.io'); 
-
+const fs = require('fs');               // 파일처리 (인증서읽기)
+// const httpsConnect = require('https');  // 보안접속 
+const httpConnect = require('http');    // 일반접속 (not 보안)
+const express = require('express');     // 익스프레스 라이브러이 
+const app = express();                 // 노드 익스프레스앱   
  
-
-// 인원목록 출력 
-var memberRouter  = require('./routes/member');    // 회원목록 라우터 
-var emgRouter     = require('./routes/emgCall');    // 비상호출 라우터 
-var empSetRouter  = require('./routes/emp');
-
-// 데이터셑 
- /*
-var gEmpFlagSet = require('./dataset/dataEmgSet');   // 비상호출 목록 
-
-var gEmpArr = [];     // 출동대기 직원목록 
-var gEmpOutStr = "";  // 출동대기 직원목록 문자열화 ( with join )
-
-global.gEmpFlagSet  = gEmpFlagSet;        // 직원목록 데이터셑 호출 객체 
-global.gEmpArr      = gEmpArr;            // 출동대기 직원목록 프로젝트 전역변수 선언 
-global.gEmpOutStr   = gEmpOutStr;         // 출동대기 직원목록 문자열 프로젝트 전역변수 선언 
- */ 
-// 소켙 
-var socketRouter  = require('./routes/socket');    // 소켙통신 
-
+// API라우터 설정  
+var memberRouter  = require('./routes/member');         // 회원목록 라우터 
+var emgRouter     = require('./routes/emgCall');        // 비상호출 라우터 
+var empSetRouter  = require('./routes/emp');            // 직원관리 라우터  
+var userManageRouter  = require('./routes/userManage'); // 사용자API 라우터 
+ 
 // post 파서 
 var bodyParser = require('body-parser');            // POST 인자 파서 
+ 
+// ============================================== F15. 인증서설정    ==============================================
+
+/*
+// 일반 접속이므로 인증서 설정 불필요 
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+*/ 
+
+// ============================================== F20. 앱설정    ==============================================
+// F21. 바디파서 설정 
 app.use(bodyParser.json());                         // POST 인자 파서 사용 
 app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
 
+// F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
-app.use('/member', memberRouter);
+app.use('/api/member', memberRouter);
 
 // 비상호출 라우팅 
-app.use('/emergency', emgRouter);                    
+app.use('/api/emergency', emgRouter);                    
 
-// 목록호출 테스트 
-app.use('/emp', empSetRouter);   
+// 목록호출 라우팅 
+app.use('/api/emp', empSetRouter);   
 
+// 사용자 라우팅 (api테스트)
+app.use('/api/user', userManageRouter );   
+ 
+// F22. 정적 데이터 설정 ---------------------------------------------------------------------------------------------
 // 정적 데이터 디렉토리 설정 
 app.use(express.static('public'));
 
 // 노드 라이브러리 바로 사용 v0.313 
 app.use(express.static('node_modules'));
  
- // 소켙 통신  
-app.use('/socket', socketRouter);      
+// ============================================== F30. API엔진 SWAGGER설정 ========================================== 
+// 주의 : 아래 설정은 app listen이 있기 전에 진행! 
 
-// 보안적용 
-// app.use(require('helmet')());
+const swaggerUi = require('swagger-ui-express');           // SWAGGER 호출 
+const swaggerJSDoc = require('swagger-jsdoc');
+
+// import YAML from 'yamljs';                                 // json이 아닌 yaml을 통해서 설정이 진행되도록 함. 
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');      // json은 설정복잡
+// const swaggerDocument = YAML.load('./swagger.yaml');    // yaml은 설정간단 (yamljs 임포트 필요)
  
+// Swagger definition
+const swaggerDefinition = {
+  swagger:'2.0',
+  info: {
+    title: 'REST API for my App', // Title of the documentation
+    version: '1.0.0', // Version of the app
+    description: 'This is the REST API for Member System', // short description of the app
+    license: 
+      {
+        name : 'MIT',
+        url: 'https://opensource.org/licenses/MIT'
+      }
+  },
+  //host: 'myapp.nuriblock.com:80', // the host or url of the app
+  host: 'myapp.nuriblock.com:80', // the host or url of the app
+  basePath: '/api', // the basepath of your endpoint
+  schemes:'http',   // SSL접속 아닌 기본 접속 
+  consumes:'application/json',
+  produces: 'application/json'
+};
 
-  /*
-app.use((req, res) => {
-  let msg; 
-  msg = "Node Utest-Server V1.884 is running "; 
-  // console.log(msg);   // 콘솔 
-});
-*/
+// API문서설정경로 
+const swagOptions = {
+  // import swaggerDefinitions
+  swaggerDefinition,
+  // path to the API docs
+  apis: ['./api-set/**/*.yaml'],
+};
 
+// 초기화 swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(swagOptions);
+
+// use swagger-Ui-express for your app documentation endpoint
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// ========== 확인1       : http://localhost or domain/api-docs/ 
+// ========== 확인2 (ssl) : https://domain:port/api-docs/ 
+// 간단테스트1 : https://myapp.nuriblock.com/api/emergency
+// 간단테스트2 : https://myapp.nuriblock.com/api/member?bnum=7
+
+// User는 가상등록 참조 샘플API https://github.com/kirti/node-express-swagger-crud
+
+// SWAGGER 사용설정  초기접속화면 : https://myapp.nuriblock.com/api-docs 
+// 싱글버전 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  
-
-//  리스터 Starting both http & https servers
-const httpServer = http.createServer(app);
+// ============================================== F80. 서버생성 및 Listen ============================================== 
+// 보안접속 서버 생성 ( not https )
+const httpServer = httpConnect.createServer(app);
  
 httpServer.listen(80, () => {
-	 console.log('UTEST wrtc 0.91 HTTP Server running on port 80');
+	 console.log('UTEST wrtc 0.92 HTTP Server running on port 80');
 });
+ 
+// 웹소켙 라우팅 처리 
+const webSocket = require("./routes/webSocket"); 
+// 웹소켙은 서버와 동일 포트 사용 (80)
+webSocket(httpServer);
 
  
-// ====================== SWAGGER ================================ 
-// ========== 확인 : http://localhost/api-docs/ 
-
- 
-import { getUserList, findUserById } from "./user";
- 
-const userList = getUserList(); // assume for now this is your database
-
-const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger_PREV.json');
-
-import YAML from 'yamljs';
-const swaggerDocument = YAML.load('./swagger.yaml');
-
-// 초기접속화면 : https://domain:80/api-docs 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
- 
-/*
-
-  app.listen(8000, () => {
-    console.log("\n\n\n =============== ndwrtc v0.5 5000 server listening on port 5000!");
-  });
-
-*/ 
-  
-// GET Call for all users
-app.get("/users", (req, res) => {
-
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-});
-
-app.get("/", (req, res) => {
-  return res.status(200).send({
-    success: "true",
-    message: "users",
-    users: userList,
-  });
-});
-
-//  POST call - Means you are adding new user into database 
-app.post("/addUser", (req, res) => {
-
-  if (!req.body.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!req.body.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-
-  const user = {
-    id: userList.length + 1,
-    isPublic: req.body.isPublic,
-    name:  req.body.name,
-    companies: req.body.companies,
-    books:  req.body.books
-  };
-  userList.push(user);
-  return res.status(201).send({
-    success: "true",
-    message: "user added successfully",
-    user,
-  });
-});
-
-//  PUt call - Means you are updating new user into database 
-
-app.put("/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  const userFound=findUserById(id)
-  
-
-  if (!userFound) {
-    return res.status(404).send({
-      success: 'false',
-      message: 'user not found',
-    });
-  }
-
-  const updatedUser= {
-      id: id,
-      isPublic: req.body.isPublic || userFound.body.isPublic,
-      name:req.body.name || userFound.body.name,
-      companies: req.body.companies || userFound.body.companies,
-      books: req.body.books || userFound.body.books
-   
-  };
-
-  if (!updatedUser.name) {
-    return res.status(400).send({
-      success: "false",
-      message: "name is required",
-    });
-  } else if (!updatedUser.companies) {
-    return res.status(400).send({
-      success: "false",
-      message: "companies is required",
-    });
-  }
-
-  for (let i = 0; i < userList.length; i++) {
-      if (userList[i].id === id) {
-          userList[i] = updatedUser;
-          return res.status(201).send({
-            success: 'true',
-            message: 'user updated successfully',
-            updatedUser
-          
-          });
-      }
-  }
-  return  res.status(404).send({
-            success: 'true',
-            message: 'error in update'
-           
-     });
-})
-
-//  Delete call - Means you are deleting new user from database 
-
-app.delete("/user/:userId", (req, res) => {
-  console.log(req.params)
-  const id = parseInt(req.params.userId, 10);
-  console.log(id)
-  for(let i = 0; i < userList.length; i++){
-      if(userList[i].id === id){
-           userList.splice(i,1);
-           return res.status(201).send({
-            success: 'true',
-            message: 'user deleted successfully'
-          });
-      }
-  }
-  return res.status(404).send({
-              success: 'true',
-              message: 'error in delete'   
-    });
-})
-
