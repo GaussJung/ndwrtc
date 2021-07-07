@@ -23,13 +23,8 @@ sudo apt-get install -y nodejs
 sudo npm install -g express  
  
 - 프로세스 관리도구 PM2설치 
-npm install pm2 -g
-
-- 바벨설치 (ES6사용)
-npm install --save babel-core
-npm install --save babel-preset-env 
-npm install babel-cli -g
-
+sudo npm install pm2 -g
+ 
 - 설치확인
  nodejs -v    
  > v14.15.3  --> v14.16.0 (2021. 03. 25 )  
