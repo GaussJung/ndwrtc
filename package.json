@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon sslserver.js --exec babel-node --presets babel-preset-env",
+    "devstart": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "lint": "eslint src/js"
   },
   "dependencies": {
