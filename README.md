@@ -1,15 +1,15 @@
 # ndwrtc
+Node를 활용한 Backend 및 Frontend 예시 프로젝트 
 
- SoyEdu Untact-Exam 팀 Test 프로젝트 
-
-1. 프로젝트 범위 
+1. 기능 범위 
 - webrtc Test
-- 시험 외부 연계 
+- 소켙테스트 
+- API테스트 (SWAGGER) 
+- React CRUD 샘플 
 
-2. 구성원 
-- Team Leader : JCW ( cwjung123@gmail.com )
-- youngHoon 
-
+2. 작성자 
+-  Colin Jung (cwjung123@gmail.com )
+ 
 3. 설치 및 환경 (as ubuntu) 
 - AWS EC2 micro freetier 설치 
 - 서버최신화 
@@ -21,17 +21,15 @@ sudo apt-get install -y nodejs
 
 - 익스프레스 설치  
 sudo npm install -g express  
+ 
+- 프로세스 관리도구 PM2설치 
+npm install pm2 -g
 
-- 익스프레스 생성기  
-sudo npm install -g express-generator  
-
+- 바벨설치 (ES6사용)
+ 
 - 설치확인
  nodejs -v    
  > v14.15.3  --> v14.16.0 (2021. 03. 25 )  
-
-- 백그라운드 기동 forever 설치  
-sudo npm install -g forever  
-
 
 4. 소스복제 
 - 기본디렉토리 생성  
@@ -46,42 +44,42 @@ sudo mkdir work
   cd ndwrtc   
 - npm install   
 
-5. 기본 접속 데모  
+5. 기본 접속 
+  cd /svdata/work/ndwrtc 
 - 기동     
-  sudo forever start server.js ( 영구동작 )  
-  sudo npm start server.js ( ssh 접속중 동작, 로그파일 확인가능  )   
+  1) 개발모드(http to localhost) 
+  sudo npm run devstart
 
-  (보안서버접속)
-  sudo npm start sslserver.js ( ssh 접속중 동작, 로그파일 확인가능  )   
+  2_1) 운영모드 기본
+  sudo npm run start 
+  or
+  sudo npm start sslserver.js 
 
-- 메인페이지   
-http://도메인 or IP  
+  2_2) 운영모드 클러스터링 운영   
+  sudo pm2 start ecosystem.config.js
+    
+  ※ 서버기동중인 모든 Node종료 
+  sudo killall node  
+   
+  ※ PM2설정파일 
+  ecosystem.config.js
 
-- 소켙테스트   
-http://도메인 or IP/demo/wstest.html     
+6. 목록확인 로그확인 (with PM2)
+sudo pm2 list (목록확인)
+sudo pm2 logs ndwrtc (로그확인)
 
-- 소켙주소    
-ws://도메인 or IP:1000/socket   
-
-- SWAGGER 접속 
-http://도메인/api-docs/
+7. 부팅후 자동기동 
+ pm2 startup
+- 출력되는 문구를 붙여넣음. ( 끝 )
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+- (상태저장) sudo pm2 save ( 이후 reboot -i : 초기부터 부팅이 진행됨 )
  
-
-6. 보안 주소 접속 
-
-- SSL인증서 발행 및 적용 :  let's encrypt or AWS Certificate with ALB   
-- 기동     
-  sudo forever start sslsvr.js ( 영구동작 )  
-  sudo npm start sslsvr.js ( ssh 접속중 동작, 로그파일 확인가능  )   
-
+### 접속페이지 ### 
 
 - 메인페이지   
-https://도메인/  
-
-- 소켙테스트 
-https://도메인/demo/wstest.html   
-
-- 소켙주소    
-wss://도메인:443/socket  
-or   
-wss://도메인/socket  
+http or https://도메인 or IP/ 
+ 
+- SWAGGER 접속 
+http or https://도메인/api-docs/
+ 
+ 
