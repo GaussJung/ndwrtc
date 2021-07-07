@@ -2,11 +2,11 @@
   "name": "ndwrtc",
   "version": "0.9.4",
   "private": true,
-  "main": "sslserver.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon sslserver.js",
-    "devstart": "nodemon server.js",
+    "start": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "devstart": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "lint": "eslint src/js"
   },
   "dependencies": {

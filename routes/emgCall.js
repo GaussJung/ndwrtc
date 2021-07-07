@@ -1,10 +1,10 @@
 'use strict';
 
-var express = require('express');
+var express = require('express'); 
 
 var router = express.Router();
  
-var dbConnector = require('../config/dbConnector');
+var dbConnector = require('../config/dbConnector'); 
 
 // 필드값 보기 
 function viewField(fArr) {
@@ -100,8 +100,8 @@ function EmgrgencyView(request, response, dcdVal) {
 // res : response, bnum : bottom number  
 function viewData(res, dcdVal) {
  
-  const mysql         = require('mysql');
-  const dbconfig      = require('../config/database.js');
+  const mysql         = require('mysql').default;
+  const dbconfig      = require('../config/database.js').default;
 
   let   connection    = mysql.createConnection(dbconfig);
  
@@ -205,7 +205,7 @@ router.post('/', (req, res) => {
     console.log("\nVN-A3 after Post bval=" + bnum);
 });
  
-module.exports = router;
+module.exports = router; 
 // module.exports = new emgCall();
 
  

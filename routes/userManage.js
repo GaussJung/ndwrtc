@@ -2,10 +2,101 @@
 var express = require('express');
 var router = express.Router();
  
-import { getUserList, findUserById } from "./user.mjs";
+// import { getUserList, findUserById } from "./user.js";
  
-const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
- 
+// 사용자 목록 확인 
+const getUserList = () =>  {
+  return [
+        {
+            id: 1,
+            isPublic: true,
+            name: 'user1',
+            companies: ['com1', 'com2', 'com3'],
+            books: [{
+                name: 'book1',
+                amount: 1,
+            },
+            {
+                name: 'book2',
+                amount: 200,
+             }
+        ]
+     }, 
+     {
+            id: 2,
+            isPublic: true,
+            name: 'kk',
+            companies: ['com1', 'com2', 'com3'],
+            books: [
+                {
+                    name: 'kk2',
+                    amount: 1,
+                },
+                {
+                    name: 'kk2',
+                    amount: 200,
+                }
+           ]
+      }
+   ]
+}
+
+// 사용자 확인 
+const findUserById = (id) => {
+
+    const users = getUserList();
+
+    const userFound = users.filter((user) => {
+        if (user.id === id) {
+              return user
+        };  
+    });
+
+      if(userFound.length > 0){
+          return userFound
+      };
+
+      return false;
+  
+ };
+
+
+// const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
+const userList = 
+[
+  {
+      id: 1,
+      isPublic: true,
+      name: 'peach',
+      companies: ['com1', 'com2', 'com3'],
+      books: [{
+          name: 'book1',
+          amount: 1,
+      },
+      {
+          name: 'book2',
+          amount: 200,
+       }
+    ]
+  }, 
+  {
+      id: 2,
+      isPublic: true,
+      name: 'apple',
+      companies: ['dom1', 'dom2', 'dom3'],
+      books: [
+          {
+              name: 'fruit1',
+              amount: 1,
+          },
+          {
+              name: 'fruit2',
+              amount: 200,
+          }
+     ]
+  }
+]; 
+
 // ============================================== F40. 샘플 API생성  ==============================================
 // GET Call for all users
 // URL : http://localhost/api/user/list

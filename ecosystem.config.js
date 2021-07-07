@@ -1,7 +1,7 @@
 ﻿module.exports = {
     apps: [{
         name: 'ndwrtc',
-        script: './server-startup.js',
+        script: './sslserver.js',
         instances: 0,
         exec_mode: 'cluster' 
     }]
