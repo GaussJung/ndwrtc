@@ -4,7 +4,12 @@
         script: './server-startup.js',
         instances: 0,
         exec_mode: 'cluster',
-        exec_interpreter:'babel-node', 
-        merge_logs: true 
+        merge_logs: true,
+        env: {
+            COMMON_VARIABLE: 'true'
+          },
+        env_production : {
+            NODE_ENV: 'production'
+        }
     }]
 }
