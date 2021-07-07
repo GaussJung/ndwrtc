@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
  
-import {getUserList, findUserById } from "./user";
+import { getUserList, findUserById } from "./user";
  
 const userList = getUserList(); // 데이터베이스 있는 것으로 가정 ( assume for now this is your database ) 
  
