@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon sslserver.js",
-    "devstart": "nodemon server.js",
-    "lint": "eslint src/js"
+    "devstart": "nodemon server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
