@@ -56,18 +56,35 @@ const corsOptions = {
 
 app.options('*',cors(corsOptions));
 app.use(cors(corsOptions));
-app.use(cors({origin : "https://wrtc.soystudy.com"}));
+app.use(cors({origin : "https://myweb.soystudy.com"}));
 
+const serviceURL = "https://myweb.soystudy.com"; 
 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
-app.use('/api/member', memberRouter);
+// app.use('/api/member', memberRouter);
+
+memberRouter.get('/api/member', function (req, res) {
+  
+  console.log( "SVCURL=" + serviceURL ); 
+  
+  // 렌더링 
+  res.render("/", {
+      svcURL: serviceURL
+  });
+
+});
+
 
 // 비상호출 라우팅 
 app.use('/api/emergency', emgRouter);                    
 
 // 목록호출 라우팅 
 app.use('/api/emp', empSetRouter);   
+
+
+ 
+
 
 // 사용자 라우팅 (api테스트)
 app.use('/api/user', userManageRouter );   

@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
 app.use('/api/member', memberRouter);
-
+ 
 // 비상호출 라우팅 
 app.use('/api/emergency', emgRouter);                    
 
