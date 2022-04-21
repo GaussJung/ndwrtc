@@ -144,7 +144,9 @@
             var disconnectButton;           // 종료버튼 
             var sendButton;                 // 메시지발송버튼 
  
-            var baseURL      = "myapp.nuriblock.com";  
+            var baseURL         = location.hostname; 
+            const baseFullURL   = location.protocol + "//" + location.hostname; 
+
             var remoteSocket = '';                   // 원격접속 
             var localSocket  = '';                   // 로컬접속  
   
