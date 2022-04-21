@@ -56,25 +56,13 @@ const corsOptions = {
 
 app.options('*',cors(corsOptions));
 app.use(cors(corsOptions));
-app.use(cors({origin : "https://myweb.soystudy.com"}));
+app.use(cors({origin : "https://myapp.nuriblock.com"}));
 
-const serviceURL = "https://myweb.soystudy.com"; 
-
+ 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
-// app.use('/api/member', memberRouter);
-
-memberRouter.get('/api/member', function (req, res) {
-  
-  console.log( "SVCURL=" + serviceURL ); 
-  
-  // 렌더링 
-  res.render("/", {
-      svcURL: serviceURL
-  });
-
-});
-
+app.use('/api/member', memberRouter);
+ 
 
 // 비상호출 라우팅 
 app.use('/api/emergency', emgRouter);                    
