@@ -3,7 +3,7 @@
 - PrgName : sslserver.js at ndwrtc  
 - Date : 2021. 07. 04 
 - Creator : C.W. Jung ( cwjung@soynet.io )
-- Version : v2.21 
+- Version : v2.24 
 - Description : Normal webRTC server for Untact Exam Service 
 - Usage 
 1) startup : sudo npm start sslserver.js  ( or sudo forever start sslserver.js )  
@@ -30,9 +30,9 @@ var userManageRouter  = require('./routes/userManage'); // 사용자API 라우�
 var bodyParser = require('body-parser');            // POST 인자 파서 
  
 // ============================================== F15. 인증서설정    ==============================================
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/myapp.nuriblock.com/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/myweb.soystudy.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/myweb.soystudy.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/myweb.soystudy.com/chain.pem', 'utf8');
 
 const credentials = {
 	key: privateKey,
@@ -103,7 +103,7 @@ const swaggerDefinition = {
         url: 'https://opensource.org/licenses/MIT'
       }
   },
-  host: 'myapp.nuriblock.com:443', // the host or url of the app
+  host: 'myweb.soystudy.com:443', // the host or url of the app
   basePath: '/api', // the basepath of your endpoint
   schemes:'https',
   consumes:'application/json',
@@ -126,12 +126,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ========== 확인1       : http://localhost or domain/api-docs/ 
 // ========== 확인2 (ssl) : https://domain:port/api-docs/ 
-// 간단테스트1 : https://myapp.nuriblock.com/api/emergency
-// 간단테스트2 : https://myapp.nuriblock.com/api/member?bnum=7
+// 간단테스트1 : https://myweb.soystudy.com/api/emergency
+// 간단테스트2 : https://myweb.soystudy.com/api/member?bnum=7
 
 // User는 가상등록 참조 샘플API https://github.com/kirti/node-express-swagger-crud
 
-// SWAGGER 사용설정  초기접속화면 : https://myapp.nuriblock.com/api-docs 
+// SWAGGER 사용설정  초기접속화면 : https://myweb.soystudy.com/api-docs 
 // 싱글버전 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  
 // ============================================== F80. 서버생성 및 Listen ============================================== 
