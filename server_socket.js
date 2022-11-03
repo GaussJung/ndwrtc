@@ -17,7 +17,8 @@
 const fs = require('fs');               // 파일처리 (인증서읽기)
 // const httpsConnect = require('https');  // 보안접속 
 const httpConnect = require('http');    // 일반접속 (not 보안)
-const express = require('express');     // 익스프레스 라이브러이 
+const express = require('express');     // 익스프레스 라이브러리
+const cors = require('cors');
 const app = express();                 // 노드 익스프레스앱   
  
 // API라우터 설정  
@@ -37,6 +38,11 @@ var bodyParser = require('body-parser');            // POST 인자 파서
 // F21. 바디파서 설정 
 app.use(bodyParser.json());                         // POST 인자 파서 사용 
 app.use(bodyParser.urlencoded({ extended: true })); // POST 인자 인코딩 
+
+// cors설정 
+app.use(cors({
+    origin: '*' 
+}));
 
 // F22. 라우팅 설정 ------------------------------------------------------------------------------------------------ 
 // 인원목록 라우팅 
