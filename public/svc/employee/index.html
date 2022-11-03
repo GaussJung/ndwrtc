@@ -87,8 +87,18 @@
 </body>
  
 	<script>
-          
-          const baseURL = location.protocol + "//" + location.hostname; 
+ 
+        var baseURL = location.protocol + "//" + location.hostname; 
+
+		if ( location.port !== null && location.port !== undefined ) {
+			
+			if ( location.port !== 80 && location.port !== 443 ) {
+				baseURL += ":" + location.port; 
+			}; 
+
+		}; 
+
+		console.log("U1-2 baseURL=" + baseURL); 
 
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
