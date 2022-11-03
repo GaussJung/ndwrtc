@@ -62,8 +62,10 @@ app.use(express.static('node_modules'));
 // http 접속 서버 생성 ( not https )
 const httpServer = httpConnect.createServer(app);
  
-httpServer.listen(3000, () => {
-	 console.log('UTEST wrtc 0.92 HTTP Server running on port 3000');
+let webPort = 3000; 
+
+httpServer.listen(webPort, () => {
+	 console.log('MyServer HTTP Server running on port ' + webPort);
 });
  
 // 웹소켙 라우팅 처리 
@@ -71,10 +73,12 @@ const webSocket = require("./routes/webSocketPort");
 // 웹소켙은 서버와 동일 포트 사용 (80, 443) 혹은 지정 
 // webSocket(httpServer);
 
-// 웹소켙 1000번 포트 사용 
-webSocket(httpServer, 8000, "/socket");
+// 웹소켙 포트설정  
+let socketPort = 8000; 
 
- 
+webSocket(httpServer, socketPort, "/socket");
+
+
 
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
@@ -89,6 +93,7 @@ const wss = new WebSocket.Server({
     path: "/socket"
 });
 
+console.log('Socket port=' + socketPort + " / path=/socket" );
 
 // F92. socket connection 설정 
 wss.on('connection', (wskt) => {
@@ -98,7 +103,7 @@ wss.on('connection', (wskt) => {
 
   conncnt++;  // 현재 접속 수량증대 
 
-  wskt.send('SC-01. Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
+  wskt.send('SC-01. Connected To Socket SecureWebSocket conncnt=' + conncnt);
 
   // F92-A. binding message 
   wskt.on('message', (indata) => {

@@ -81,7 +81,7 @@ exports.getResulSetStr = function() {
 }; 
 
 // 호출방법  getEmpFlagSet(100)
-console.log("\nDS11-Added EmgDeptSet"); 
+// console.log("\nDS11-Added EmgDeptSet"); 
 
 exports.getEmpFlagSet = getEmpFlagSet;  
  
