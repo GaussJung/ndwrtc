@@ -27,7 +27,10 @@ module.exports = function( paramServer, paramPort, paramPath ){
 
         conncnt++;                  // 현재 접속 수량증대 
 
-        wskt.send('Connected To Socket V1.715 conncnt=' + conncnt);
+        wskt.send('Connected To Socket conncnt=' + conncnt);
+
+        console.log( "============== Connected to Socket =============="); 
+
 
         // F92-A. binding message 
         wskt.on('message', (indata) => {
