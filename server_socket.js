@@ -71,7 +71,7 @@ const httpServer = httpConnect.createServer(app);
 let webPort = 3000; 
 
 httpServer.listen(webPort, () => {
-	 console.log('MyServer HTTP Server running on port ' + webPort);
+	 console.log('Test V1.1 Server running on port ' + webPort);
 });
  
 // 웹소켙 라우팅 처리 
