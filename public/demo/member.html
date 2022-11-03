@@ -87,7 +87,21 @@
  
 	<script>
 		  
-		const baseURL = "https://myapp.nuriblock.com"; 
+		// const baseURL = "https://myapp.nuriblock.com"; 
+
+		// var baseURL         = location.hostname; 
+        var baseURL = location.protocol + "//" + location.hostname; 
+
+		if ( location.port !== null && location.port !== undefined ) {
+			
+			if ( location.port !== 80 && location.port !== 443 ) {
+				baseURL += ":" + location.port; 
+			}; 
+
+		 
+		}; 
+
+		console.log("U1 baseURL=" + baseURL); 
 
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
@@ -118,16 +132,9 @@
                 
                 let moveURL			= ""; 						// 저장후 이동주소 
                 let tmpStr 			= "";						// 임시 문자열 
-						 
-				console.log("L1 href=" + location.href);
-
-				if ( location.href.indexOf("localhost") > -1 )  {
-					targetURL = "/api/member"; 	 
-				}
-				else {
-					targetURL =  baseURL + "/api/member"; 		 
-				}; 
- 
+	 
+				targetURL =  baseURL + "/api/member"; 		 
+			 
 				// initializing data 
 				doClearData();
 
@@ -157,7 +164,6 @@
                  
                  // V-20. 검증결과
                  if ( err > 0  ) {
-
                      alert(messageStr);
                  }
                  else {
