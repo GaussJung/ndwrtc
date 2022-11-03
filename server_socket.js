@@ -75,17 +75,19 @@ httpServer.listen(webPort, () => {
 });
  
 // 웹소켙 라우팅 처리 
-const webSocket = require("./routes/webSocketPort"); 
 // 웹소켙은 서버와 동일 포트 사용 (80, 443) 혹은 지정 
-// webSocket(httpServer);
-
+const webSocket = require("./routes/webSocketPort"); 
 // 웹소켙 포트설정  
 let socketPort = 5000; 
-
+// 웹소켓 기능구동 
 webSocket(httpServer, socketPort, "/socket");
 
  
 // ==============================================  F90. 웹소켙 접속 ============================================== 
+
+
+/*
+
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  
@@ -97,6 +99,7 @@ const wss = new WebSocket.Server({
     server: httpServer,
     path: "/socket"
 });
+
 
 console.log('Socket port=' + socketPort + " / path=/socket" );
 
@@ -160,4 +163,4 @@ const sendError = (wskt, errmessage) => {
 	// Send Error Msg 
 	wskt.send(JSON.stringify(messageObject));
 };
- 
+*/ 
