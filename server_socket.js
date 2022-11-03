@@ -59,7 +59,7 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
    
 // ============================================== F80. 서버생성 및 Listen ============================================== 
-// 보안접속 서버 생성 ( not https )
+// http 접속 서버 생성 ( not https )
 const httpServer = httpConnect.createServer(app);
  
 httpServer.listen(3000, () => {
@@ -83,9 +83,9 @@ var conncnt     = 0;     // 소켙 접속 횟수 (전체)
  // 웹소켙 
 const WebSocket = require('ws'); 
  
-// F91. secure websocket 생성  
+// F91 websocket 생성  
 const wss = new WebSocket.Server({
-    server: httpsServer,
+    server: httpServer,
     path: "/socket"
 });
 
