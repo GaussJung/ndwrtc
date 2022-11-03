@@ -80,12 +80,11 @@ const webSocket = require("./routes/webSocketPort");
 // webSocket(httpServer);
 
 // 웹소켙 포트설정  
-let socketPort = 8000; 
+let socketPort = 5000; 
 
 webSocket(httpServer, socketPort, "/socket");
 
-
-
+ 
 // ==============================================  F90. 웹소켙 접속 ============================================== 
 var allmcnt     = 0;     // 전체 메시지 수량 
 var conncnt     = 0;     // 소켙 접속 횟수 (전체)
@@ -133,7 +132,7 @@ wss.on('connection', (wskt) => {
     }; 
 
  
-    let metaStr = "V1.25 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+    let metaStr = "V1.27 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
     let finalMsg = metaStr + "\nReceived Message=" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
   
     console.log( "SC-20. SendMsg=" + finalMsg ); 
