@@ -72,7 +72,7 @@ const webSocket = require("./routes/webSocketPort");
 // webSocket(httpServer);
 
 // 웹소켙 1000번 포트 사용 
-webSocket(httpServer, 8000, "/socket");
+webSocket(httpServer, 1000, "/socket");
 
  
 
