@@ -43,7 +43,7 @@
  
  	<div id="mainContainer" > 
  	
-		<h2><span style='color:blue'>WebSocket Connection Test V1.23</span></h2>
+		<h2><span style='color:blue'>WebSocket Connection Test V1.25</span></h2>
 	 
 		<div id='viewDetail' >
 		
@@ -129,7 +129,7 @@
 	    // ====================== START of JQuery ==================== 
 		$(document).ready(function(){
 		   	 
-            console.log("========== myApp webSocket 0.921  ============" + location.protocol ); 
+            console.log("========== myApp webSocket 1.25  ============" + location.protocol ); 
             console.log("cmd >> node server.js or node sslserver.js href= " +  location.href ); 
             console.log("url >> http://localhost/socket/  ============"); 
       
@@ -151,7 +151,7 @@
             var localSocket  = '';                   // 로컬접속  
   
             var securePort   = 443;                  // 안전포트 
-            var normalPort   = 1000;                 // 일반포트      
+            var normalPort   = 8000;                 // 일반포트      
  
             // P05. 환경설정
             function setInitEnv() {
