@@ -63,7 +63,7 @@ app.use(express.static('node_modules'));
 const httpServer = httpConnect.createServer(app);
  
 httpServer.listen(3000, () => {
-	 console.log('UTEST wrtc 0.92 HTTP Server running on port 80');
+	 console.log('UTEST wrtc 0.92 HTTP Server running on port 3000');
 });
  
 // 웹소켙 라우팅 처리 
@@ -72,7 +72,7 @@ const webSocket = require("./routes/webSocketPort");
 // webSocket(httpServer);
 
 // 웹소켙 1000번 포트 사용 
-webSocket(httpServer, 1000, "/socket");
+webSocket(httpServer, 8000, "/socket");
 
  
 
