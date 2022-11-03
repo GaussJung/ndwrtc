@@ -290,7 +290,7 @@ wss.on('connection', (wskt) => {
     let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
     let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
   
-    console.log( "SC92 finalMsg=" + finalMsg ); 
+    console.log( "SC-95. finalMsg=" + finalMsg ); 
 
     wskt.send(finalMsg); 
   
