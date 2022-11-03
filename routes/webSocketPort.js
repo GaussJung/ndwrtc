@@ -1,5 +1,4 @@
 ﻿// webSocketPort 
-
 const wsModlue = require("ws");
   
 module.exports = function( paramServer, paramPort, paramPath ){ 
@@ -28,7 +27,7 @@ module.exports = function( paramServer, paramPort, paramPath ){
 
         conncnt++;                  // 현재 접속 수량증대 
 
-        wskt.send(' Connected To Socket V1.715 conncnt=' + conncnt);
+        wskt.send('Connected To Socket V1.715 conncnt=' + conncnt);
 
         // F92-A. binding message 
         wskt.on('message', (indata) => {
@@ -47,13 +46,13 @@ module.exports = function( paramServer, paramPort, paramPath ){
             catch (err) {
                 sendError(wskt, 'Wrong format Err SE-150 err=' + err);
                 return;
-            }
-
-            // EOF SF05. 
-            let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+            }; 
+ 
+ 
+            let metaStr = "V1.27 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
             let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
-        
-            console.log( "SC92 finalMsg=" + finalMsg ); 
+          
+            console.log( "SC-21. SendMsg=" + finalMsg ); 
 
             wskt.send(finalMsg); 
         
