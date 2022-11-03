@@ -132,8 +132,8 @@ wss.on('connection', (wskt) => {
     }; 
 
  
-    let metaStr = "V1.27 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
-    let finalMsg = metaStr + "\nReceived Message=" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
+    let metaStr = "V1.28 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+    let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
   
     console.log( "SC-20. SendMsg=" + finalMsg ); 
 
