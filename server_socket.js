@@ -72,7 +72,7 @@ const webSocket = require("./routes/webSocketPort");
 // webSocket(httpServer);
 
 // 웹소켙 1000번 포트 사용 
-webSocket(httpServer, 1000, "/socket");
+webSocket(httpServer, 8000, "/socket");
 
  
 
@@ -98,7 +98,7 @@ wss.on('connection', (wskt) => {
 
   conncnt++;  // 현재 접속 수량증대 
 
-  wskt.send('Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
+  wskt.send('SC-01. Connected To Socket SecureWebSocket V1.7 conncnt=' + conncnt);
 
   // F92-A. binding message 
   wskt.on('message', (indata) => {
@@ -112,19 +112,20 @@ wss.on('connection', (wskt) => {
 
     // SF05. Parse Message 
     try {
-        // fmessage = JSON.parse(indata);
+        // 전달받은 메시지 fmessage = JSON.parse(indata);
         fmessage = indata; 
         // console.log( "SC91 success fmessage=" + indata ); 
     } 
     catch (err) {
-      sendError(wskt, 'Wrong format Err SE-150 err=' + err);
+      sendError(wskt, 'SC-15. Wrong format Err SE-150 err=' + err);
       return;
-    }
-    // EOF SF05. 
-    let metaStr = "V1.21 wss Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
-    let finalMsg = metaStr + "\n" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
+    }; 
+
+ 
+    let metaStr = "V1.25 Time=" + pfnow + " / connAll=" + conncnt + " / msgAll=" + allmcnt + " / msgCur=" + curmcnt;
+    let finalMsg = metaStr + "\nReceived Message=" + fmessage;  // 최종메시지 : 메타정보 + 전달메시지 
   
-    console.log( "SC92 finalMsg=" + finalMsg ); 
+    console.log( "SC-20. SendMsg=" + finalMsg ); 
 
     wskt.send(finalMsg); 
   
@@ -144,7 +145,7 @@ const sendError = (wskt, errmessage) => {
   
 	let outMsg = JSON.stringify(messageObject); 
   
-	console.log("SC100 Error outMsg=" + outMsg); 
+	console.log("SC-100. Error outMsg=" + outMsg); 
   
 	// Send Error Msg 
 	wskt.send(JSON.stringify(messageObject));
