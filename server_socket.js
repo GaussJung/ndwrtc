@@ -79,6 +79,9 @@ httpServer.listen(webPort, () => {
 const webSocket = require("./routes/webSocketPort"); 
 // 웹소켙 포트설정  
 let socketPort = 5000; 
+
+console.log('Ready SocketOpen port=' + socketPort);
+
 // 웹소켓 기능구동 
 webSocket(httpServer, socketPort, "/socket");
 
